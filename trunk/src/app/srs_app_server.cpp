@@ -109,6 +109,8 @@ std::string srs_listener_type2string(SrsListenerType type)
         return "RTSP";
     case SrsListenerFlv:
         return "HTTP-FLV";
+    case SrsCmdUdp:
+        return "CMD-UDP";
     default:
         return "UNKONWN";
     }
@@ -307,6 +309,60 @@ SrsUdpStreamListener::SrsUdpStreamListener(SrsServer* svr, SrsListenerType t, IS
 SrsUdpStreamListener::~SrsUdpStreamListener()
 {
     srs_freep(listener);
+}
+
+SrsCmdUdpListener::SrsCmdUdpListener(SrsServer* svr, SrsListenType t) : SrsListener(svr, t)
+{
+    listener = NULL;
+}
+
+SrsCmdUdpListener::~SrsCmdUdpListener()
+{
+    srs_free(listener);
+}
+
+SrsCmdUdpListener::listen(string i, int p)
+{
+    int ret = ERROR_SUCCESS;
+    
+    ip = i;
+    port = p;
+
+    srs_freep(listener);
+    listener = new SrsUdpListener(this, ip, port);
+
+    if ((ret = listener->listen()) != ERROR_SUCCESS) {
+        srs_error("udp listen failed. ret=%d", ret);
+        return ret;
+    }
+    
+    srs_info("listen thread current_cid=%d, "
+        "listen at port=%d, type=%d, fd=%d started success, ep=%s:%d",
+        _srs_context->get_id(), p, type, listener->fd(), i.c_str(), p);
+    
+    // notify the handler the fd changed.
+    if ((ret = this->on_stfd_change(listener->stfd())) != ERROR_SUCCESS) {
+        srs_error("notify handler fd changed. ret=%d", ret);
+        return ret;
+    }
+
+    srs_trace("%s listen at tcp://%s:%d, fd=%d", srs_listener_type2string(type).c_str(), ip.c_str(), port, listener->fd());
+
+    return ret;
+
+}
+
+int SrsCmdUdpListener::on_stdfd_change(st_netfd_t fd)
+{
+    return ERROR_SUCCESS;
+}
+
+int SrsCmdUdpListener::on_udp_packet(sockaddr_in* from, char* buf, int nb_buf)
+{
+    int ret = ERROR_SUCCESS;
+    srs_trace("Recv from other server bytes:%s, Cnt:%d", buf, nb_buf);
+
+    return ret;
 }
 
 int SrsUdpStreamListener::listen(string i, int p)
@@ -745,6 +801,11 @@ int SrsServer::listen()
     if ((ret = listen_stream_caster()) != ERROR_SUCCESS) {
         return ret;
     }
+
+    if( (ret = listen_cmd_udp()) != ERROR_SUCCESS)
+    {
+        return ret;
+    }
     
     return ret;
 }
@@ -1073,6 +1134,24 @@ int SrsServer::listen_rtmp()
         }
     }
     
+    return ret;
+}
+
+int SrsServer::listen_cmd_udp()
+{
+    int ret = ERROR_SUCCESS;
+    SrsListener* listener = new SrsCmdUdpListener(this, SrsCmdUdp);
+    srs_assert(listener != NULL);
+
+    listeners.push_back(listener);
+
+    std::string ip = "0.0.0.0";
+    int port = 28288;
+    if ((ret = listener->listen(ip, port)) != ERROR_SUCCESS)
+    {
+        srs_error("Command udp listen at %s:%d failed. ret=%d", ip.c_str(), port, ret);
+        return ret;
+    }
     return ret;
 }
 

@@ -72,6 +72,8 @@ enum SrsListenerType
     SrsListenerRtsp             = 4,
     // TCP stream, FLV stream over HTTP.
     SrsListenerFlv              = 5,
+    //监听udp端口
+    SrsCmdUdp                   =6,
 };
 
 /**
@@ -91,6 +93,24 @@ public:
 public:
     virtual SrsListenerType listen_type();
     virtual int listen(std::string i, int p) = 0;
+};
+
+/**
+ * cmd udp listener 
+ */
+class SrsCmdUdpListener: virtual public SrsListener, virtual public ISrsUdpHandler
+{
+private:
+    SrsUdpListener* listener;
+public:
+    SrsCmdUdpListener(SrsServer* server, SrsListenType type);
+    virtual ~SrsCmdUdpListener();
+public:
+    virtual int listen(std::string ip, int port);
+public:
+    virtual int on_stdfd_change(st_netfd_t fd);
+    virtual int on_udp_packet(sockaddr_in* from, char* buf, int nb_buf);
+
 };
 
 /**
@@ -342,6 +362,7 @@ private:
     virtual int listen_http_api();
     virtual int listen_http_stream();
     virtual int listen_stream_caster();
+    virtual int listen_cmd_udp();
     /**
     * close the listeners for specified type, 
     * remove the listen object from manager.
