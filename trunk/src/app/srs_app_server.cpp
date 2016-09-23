@@ -362,6 +362,11 @@ int SrsCmdUdpListener::on_udp_packet(sockaddr_in* from, char* buf, int nb_buf)
     int ret = ERROR_SUCCESS;
     srs_trace("Recv from other server bytes:%s, Cnt:%d", buf, nb_buf);
 
+    SrsStatistic* stat = SrsStatistic::instance();
+    stringstream str;
+    stat->dumps_clients(str, 0, 10);
+    srs_trace("dumps_client: %s", str.str().c_str()); 
+
     return ret;
 }
 
