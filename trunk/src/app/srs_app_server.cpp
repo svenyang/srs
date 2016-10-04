@@ -311,17 +311,17 @@ SrsUdpStreamListener::~SrsUdpStreamListener()
     srs_freep(listener);
 }
 
-SrsCmdUdpListener::SrsCmdUdpListener(SrsServer* svr, SrsListenType t) : SrsListener(svr, t)
+SrsCmdUdpListener::SrsCmdUdpListener(SrsServer* svr, SrsListenerType t) : SrsListener(svr, t)
 {
     listener = NULL;
 }
 
 SrsCmdUdpListener::~SrsCmdUdpListener()
 {
-    srs_free(listener);
+    srs_freep(listener);
 }
 
-SrsCmdUdpListener::listen(string i, int p)
+int SrsCmdUdpListener::listen(string i, int p)
 {
     int ret = ERROR_SUCCESS;
     

@@ -103,7 +103,7 @@ class SrsCmdUdpListener: virtual public SrsListener, virtual public ISrsUdpHandl
 private:
     SrsUdpListener* listener;
 public:
-    SrsCmdUdpListener(SrsServer* server, SrsListenType type);
+    SrsCmdUdpListener(SrsServer* server, SrsListenerType type);
     virtual ~SrsCmdUdpListener();
 public:
     virtual int listen(std::string ip, int port);
