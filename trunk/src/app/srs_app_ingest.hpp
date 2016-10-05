@@ -107,6 +107,15 @@ public:
     virtual int on_reload_ingest_removed(std::string vhost, std::string ingest_id);
     virtual int on_reload_ingest_added(std::string vhost, std::string ingest_id);
     virtual int on_reload_ingest_updated(std::string vhost, std::string ingest_id);
+    
+public:
+    virtual int on_add_ingest(std::string sHostName, std::string sStreamId, 
+        std::string sSourceId, std::string sDestUrl);
+    virtual int parse_enginesex(std::string sHostName, std::string sStreamId, 
+        std::string sSourceId, std::string sDestUrl);
+    virtual int initialize_ffmpegex(std::string sHostName, std::string sStreamId, 
+        std::string sSourceId, std::string sDestUrl);
+
 };
 
 #endif

@@ -105,6 +105,7 @@ void SrsIngesterFFMPEG::fast_stop()
 SrsIngester::SrsIngester()
 {
     _srs_config->subscribe(this);
+    _srs_host->subscribe(this);
     
     pthread = new SrsReusableThread("ingest", this, SRS_AUTO_INGESTER_SLEEP_US);
     pprint = SrsPithyPrint::create_ingester();
@@ -550,6 +551,194 @@ int SrsIngester::on_reload_ingest_updated(string vhost, string ingest_id)
     
     return ret;
 }
+
+
+/*
+ *
+ */
+int SrsIngester::on_add_ingest(string sHostName, string sStreamId, string sSourceUrl, string sDestUrl)
+{
+    int ret = ERROR_SUCCESS;
+    
+    ret = this->parse_enginesex(sHostName, sStreamId, sSourceUrl, sDestUrl);
+    
+    return ret;
+}
+
+/*
+ * pars vDestUrl, add just one desturl to an engine
+ */
+int SrsIngester::parse_enginesex(string sHostName, string sStreamId, 
+    string sSourceUrl, string sDestUrl)
+{
+    int ret = ERROR_SUCCESS;
+    
+    std::string ffmpeg_bin = "ffmpeg";
+    if (ffmpeg_bin.empty()) {
+        ret = ERROR_ENCODER_PARSE;
+        srs_trace("empty ffmpeg ret=%d", ret);
+        return ret;
+    }
+    
+    // create ingesters without engines.
+    if (sDestUrl.empty()) {
+        SrsFFMPEG* ffmpeg = new SrsFFMPEG(ffmpeg_bin);
+        if ((ret = initialize_ffmpegex(ffmpeg, sHostName, sStreamId, sSourceUrl, "")) != ERROR_SUCCESS) {
+            srs_freep(ffmpeg);
+            if (ret != ERROR_ENCODER_LOOP) {
+                srs_error("invalid ingest engine. ret=%d", ret);
+            }
+            return ret;
+        }
+
+        SrsIngesterFFMPEG* ingester = new SrsIngesterFFMPEG();
+        if ((ret = ingester->initialize(ffmpeg, sHostName, sStreamId)) != ERROR_SUCCESS) {
+            srs_freep(ingester);
+            return ret;
+        }
+        
+        ingesters.push_back(ingester);
+        return ret;
+    }
+
+    // create ingesters with engine
+    string engine = sDestUrl;
+    SrsFFMPEG *ffmpeg = new SrsFFMPEG(ffmpeg_bin);
+    if ((ret = initialize_ffmpegex(ffmpeg, sHostName, sStreamId, sSourceUrl, engine)) != ERROR_SUCCESS)
+    {
+        srs_freep(ffmpeg);
+        if (ret != ERROR_ENCODER_LOOP)
+        {
+            srs_error("invalid ingest engine: %s %s, ret=%d",
+                      sStremId.c_str(), engine.c_str(), ret);
+        }
+        return ret;
+    }
+
+    SrsIngesterFFMPEG *ingester = new SrsIngesterFFMPEG();
+    if ((ret = ingester->initialize(ffmpeg, sHostName, sStreamId)) != ERROR_SUCCESS)
+    {
+        srs_freep(ingester);
+        return ret;
+    }
+
+    ingesters.push_back(ingester);
+
+    return ret;
+}
+
+
+/*
+ * Reload initialize_ffmpeg
+ * type = stream
+ */
+int SrsIngester::initialize_ffmpegex(SrsFFMPEG* ffmpeg, string sHostName, string sStreamId, string sSourceUrl, string sDestUrl)
+{
+    int ret = ERROR_SUCCESS;
+    
+    std::string port;
+    if (true) {
+        std::vector<std::string> ip_ports = _srs_config->get_listens();
+        srs_assert(ip_ports.size() > 0);
+        
+        std::string ep = ip_ports[0];
+        std::string ip;
+        srs_parse_endpoint(ep, ip, port);
+    }
+   
+    //already url in sDestUrl
+    //ie. rtmp://112.121.158.185:1935/live/streamid 
+    std::string output = sDestUrl;
+    // output stream, to other/self server
+    // ie. rtmp://localhost:1935/live/livestream_sd
+    if (output.empty()) {
+        ret = ERROR_ENCODER_NO_OUTPUT;
+        srs_trace("empty output url, ingest=%s. ret=%d", sStreamId.c_str(), ret);
+        return ret;
+    }
+    
+    // find the app and stream in rtmp url
+    std::string url = output;
+    std::string app, stream;
+    size_t pos = std::string::npos;
+    if ((pos = url.rfind("/")) != std::string::npos) {
+        stream = url.substr(pos + 1);
+        url = url.substr(0, pos);
+    }
+    if ((pos = url.rfind("/")) != std::string::npos) {
+        app = url.substr(pos + 1);
+        url = url.substr(0, pos);
+    }
+    if ((pos = app.rfind("?")) != std::string::npos) {
+        app = app.substr(0, pos);
+    }
+    
+    std::string log_file = SRS_CONSTS_NULL_FILE; // disabled
+    // write ffmpeg info to log file.
+    if (_srs_config->get_ffmpeg_log_enabled()) {
+        log_file = _srs_config->get_ffmpeg_log_dir();
+        log_file += "/";
+        log_file += "ffmpeg-ingest";
+        log_file += "-";
+        log_file += sHostName;
+        log_file += "-";
+        log_file += app;
+        log_file += "-";
+        log_file += stream;
+        log_file += ".log";
+    }
+    
+    // input
+    std::string input_type = SRS_CONF_DEFAULT_INGEST_TYPE_STREAM;
+
+    if (srs_config_ingest_is_stream(input_type)) {
+        std::string input_url = sSourceUrl;
+        if (input_url.empty()) {
+            ret = ERROR_ENCODER_NO_INPUT;
+            srs_trace("empty intput url, ingest=%s. ret=%d", sStreamId.c_str(), ret);
+            return ret;
+        }
+        
+        // for stream, no re.
+        ffmpeg->set_iparams("");
+    
+        if ((ret = ffmpeg->initialize(input_url, output, log_file)) != ERROR_SUCCESS) {
+            return ret;
+        }
+    } else {
+        ret = ERROR_ENCODER_INPUT_TYPE;
+        srs_error("invalid ingest=%s type=%s, ret=%d", 
+            sStreamId.c_str(), input_type.c_str(), ret);
+    }
+    
+    // set output format to flv for RTMP
+    ffmpeg->set_oformat("rtmp");
+    
+    std::string vcodec = "";
+    std::string acodec = "";
+    // whatever the engine config, use copy as default.
+    bool engine_disabled = false ;
+    if (engine_disabled || vcodec.empty() || acodec.empty()) {
+        if ((ret = ffmpeg->initialize_copy()) != ERROR_SUCCESS) {
+            return ret;
+        }
+    } 
+/*
+    else 
+    {
+        if ((ret = ffmpeg->initialize_transcode(engine)) != ERROR_SUCCESS) {
+            return ret;
+        }
+    }
+*/
+    
+    srs_trace("parse success, ingest=%s, vhost=%s", 
+        sStreamId.c_str(), sHostName.c_str());
+    
+    return ret;
+}
+
+
 
 #endif
 

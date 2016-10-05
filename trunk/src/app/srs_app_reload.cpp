@@ -230,3 +230,7 @@ int ISrsReloadHandler::on_reload_user_info()
     return ERROR_SUCCESS;
 }
 
+int ISrsReloadHandler::on_add_ingest(string, string, string, string)
+{
+    return ERROR_SUCCESS;
+}

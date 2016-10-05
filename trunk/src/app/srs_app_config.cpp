@@ -451,6 +451,52 @@ int SrsConfDirective::read_token(SrsConfigBuffer* buffer, vector<string>& args, 
     return ret;
 }
 
+//SrsConfHost
+int SrsConfHost::addIngest(SrsConfIngest* ingest)
+{
+    int ret = ERROR_SUCCESS;
+    vConfIngest.push_back(ingest);
+    if( this->subscribes != NULL)
+    {
+        this->subscribes->on_add_ingest(sHostName, ingest->sStreamId, 
+        ingest->sSourceUrl, ingest->sDestUrl[0]);
+    }
+    return ret;
+}
+
+int SrsConfHost::removeIngest(SrsConfIngest* ingest)
+{
+    int ret = ERROR_SUCCESS;
+    std::vector<SrsConfIngest*>::iterator it;
+    
+    it = std::find(vConfIngest.begin(), vConfIngest.end(), ingest);
+    if( it== vConfIngest.end())
+    {
+        return ret;
+    }
+    vConfIngest.erase(it);
+    
+    return ret;
+}
+
+void SrsConfHost::subscribe(ISrsReloadHandler* handler)
+{
+    this->subscribes = handler;
+}
+
+void SrsConfHost::unsubscribe(ISrsReloadHandler* handler)
+{
+    this->subscribes = NULL;
+}
+
+int SrsConfHost::reload()
+{
+    int ret = ERROR_SUCCESS;
+    
+    return ret;
+}
+
+
 SrsConfig::SrsConfig()
 {
     dolphin = false;

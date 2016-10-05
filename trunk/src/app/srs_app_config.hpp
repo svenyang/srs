@@ -168,6 +168,47 @@ private:
     virtual int read_token(_srs_internal::SrsConfigBuffer* buffer, std::vector<std::string>& args, int& line_start);
 };
 
+class SrsConfIngest
+{
+public:
+    string sStreamId;
+    string sSourceUrl;
+    vector<string> vDestUrl;
+};
+
+class SrsConfHost
+{
+private:
+    string sHostName;
+    vector<SrsConfIngest*> vConfIngest;
+private:
+    ISrsReloadHandler* subscribes;
+public:
+    SrsConfHost() {}
+    ~SrsConfHost() {}
+    string get_Host_name()  { return sHostName; }
+    vector<SrsConfIngest*> get_conf_ingest()  { return vConfIngest; }
+public:
+    int addIngest(SrsConfIngest* ingest);
+    int removeIngest(SrsConfIngest* ingest);
+// reload
+public:
+    /**
+    * for reload handler to register itself,
+    * when config service do the reload, callback the handler.
+    */
+    virtual void subscribe(ISrsReloadHandler* handler);
+    /**
+    * for reload handler to unregister itself.
+    */
+    virtual void unsubscribe(ISrsReloadHandler* handler);
+    /**
+    * reload the config file.
+    * @remark, user can test the config before reload it.
+    */
+    virtual int reload();
+};
+
 /**
 * the config service provider.
 * for the config supports reload, so never keep the reference cross st-thread,
@@ -1174,6 +1215,7 @@ extern bool srs_stream_caster_is_flv(std::string caster);
 
 // global config
 extern SrsConfig* _srs_config;
+extern SrsconfHost* _srs_host;
 
 #endif
 

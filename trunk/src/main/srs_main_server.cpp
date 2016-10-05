@@ -54,6 +54,7 @@ ISrsThreadContext* _srs_context = new SrsThreadContext();
 // app module.
 SrsConfig* _srs_config = new SrsConfig();
 SrsServer* _srs_server = new SrsServer();
+SrsConfHost* _srs_host = new SrsConfHost();
 // version of srs, which can grep keyword "XCORE"
 extern const char* _srs_version;
 
