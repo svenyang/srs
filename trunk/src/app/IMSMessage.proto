@@ -1,0 +1,50 @@
+/*
+	wget https://github.com/google/protobuf/releases/download/v2.6.1/protobuf-2.6.1.tar.gz
+	tar -xzvf protobuf-2.6.1.tar.gz
+	cd protobuf-2.6.1
+	sudo ./configure
+	sudo make
+	sudo make check
+	sudo make install
+	sudo ldconfig
+	protoc --version
+*/
+
+
+syntax = "proto2";
+
+/*************************IMS->Ingester*********************/
+message AddStreamMsg{
+	optional string streamId = 1;
+	repeated string rtmpSinkIP = 2;
+}
+
+message DelStreamMsg{
+	optional string streamId = 1;
+}
+
+/*************************Ingester->IMS*********************/
+message StreamEndMsg{
+	optional string streamId = 1;
+	optional string rtmpSinkIP = 2;
+}
+
+/*************************RTMP->IMS*********************/
+message StreamClientsCount{
+	optional string streamId = 1;
+	optional int32 numClients = 2;
+}
+message NumClientsReplyMsg{
+	repeated StreamClientsCount streamclients = 1;
+}
+
+/*************************Master************************/
+message IMSMessage{
+	optional int64 seqNo = 1;
+	optional string cmd = 2; //{"Ping", "Ack", "AddStream", "DelStream", "NumClients", "NumClientsReply"}
+	optional AddStreamMsg addStream = 3;
+	optional DelStreamMsg delStream = 4;
+	optional StreamEndMsg streamEnd = 5;
+	optional NumClientsReplyMsg NumClientsReplies = 6;
+}
+
