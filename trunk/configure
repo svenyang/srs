@@ -43,6 +43,9 @@ mkdir -p ${SRS_OBJS}
 # apply user options.
 . auto/depends.sh
 
+# apply protobuf header file
+. auto/generate_proto_header.sh
+
 # the auto generated variables.
 . auto/auto_headers.sh
 

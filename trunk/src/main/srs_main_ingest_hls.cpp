@@ -59,6 +59,7 @@ ISrsLog* _srs_log = new SrsFastLog();
 ISrsThreadContext* _srs_context = new ISrsThreadContext();
 // app module.
 SrsConfig* _srs_config = NULL;
+SrsConfHost* _srs_host = NULL;
 SrsServer* _srs_server = NULL;
 
 #if defined(SRS_AUTO_HTTP_CORE)

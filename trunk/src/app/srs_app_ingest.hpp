@@ -113,7 +113,7 @@ public:
         std::string sSourceId, std::string sDestUrl);
     virtual int parse_enginesex(std::string sHostName, std::string sStreamId, 
         std::string sSourceId, std::string sDestUrl);
-    virtual int initialize_ffmpegex(std::string sHostName, std::string sStreamId, 
+    virtual int initialize_ffmpegex(SrsFFMPEG* ffmpeg, std::string sHostName, std::string sStreamId, 
         std::string sSourceId, std::string sDestUrl);
 
 };

@@ -459,7 +459,7 @@ int SrsConfHost::addIngest(SrsConfIngest* ingest)
     if( this->subscribes != NULL)
     {
         this->subscribes->on_add_ingest(sHostName, ingest->sStreamId, 
-        ingest->sSourceUrl, ingest->sDestUrl[0]);
+        ingest->sSourceUrl, ingest->vDestUrl[0]);
     }
     return ret;
 }

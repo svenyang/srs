@@ -171,23 +171,23 @@ private:
 class SrsConfIngest
 {
 public:
-    string sStreamId;
-    string sSourceUrl;
-    vector<string> vDestUrl;
+	std::string sStreamId;
+	std::string sSourceUrl;
+	std::vector<std::string> vDestUrl;
 };
 
 class SrsConfHost
 {
 private:
-    string sHostName;
-    vector<SrsConfIngest*> vConfIngest;
+	std::string sHostName;
+	std::vector<SrsConfIngest*> vConfIngest;
 private:
     ISrsReloadHandler* subscribes;
 public:
     SrsConfHost() {}
     ~SrsConfHost() {}
-    string get_Host_name()  { return sHostName; }
-    vector<SrsConfIngest*> get_conf_ingest()  { return vConfIngest; }
+	std::string get_Host_name()  { return sHostName; }
+	std::vector<SrsConfIngest*> get_conf_ingest()  { return vConfIngest; }
 public:
     int addIngest(SrsConfIngest* ingest);
     int removeIngest(SrsConfIngest* ingest);
@@ -1214,8 +1214,8 @@ extern bool srs_stream_caster_is_rtsp(std::string caster);
 extern bool srs_stream_caster_is_flv(std::string caster);
 
 // global config
+extern SrsConfHost* _srs_host;
 extern SrsConfig* _srs_config;
-extern SrsconfHost* _srs_host;
 
 #endif
 

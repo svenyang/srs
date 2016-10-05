@@ -34,6 +34,7 @@ ISrsLog* _srs_log = new MockEmptyLog(SrsLogLevel::Disabled);
 ISrsThreadContext* _srs_context = new ISrsThreadContext();
 // app module.
 SrsConfig* _srs_config = NULL;
+SrsConfHost* _srs_host = NULL;
 SrsServer* _srs_server = NULL;
 
 MockEmptyLog::MockEmptyLog(int level)

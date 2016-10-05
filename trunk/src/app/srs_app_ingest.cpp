@@ -114,6 +114,7 @@ SrsIngester::SrsIngester()
 SrsIngester::~SrsIngester()
 {
     _srs_config->unsubscribe(this);
+    _srs_host->unsubscribe(this);
     
     srs_freep(pthread);
     clear_engines();
@@ -610,7 +611,7 @@ int SrsIngester::parse_enginesex(string sHostName, string sStreamId,
         if (ret != ERROR_ENCODER_LOOP)
         {
             srs_error("invalid ingest engine: %s %s, ret=%d",
-                      sStremId.c_str(), engine.c_str(), ret);
+                      sStreamId.c_str(), engine.c_str(), ret);
         }
         return ret;
     }
@@ -689,7 +690,7 @@ int SrsIngester::initialize_ffmpegex(SrsFFMPEG* ffmpeg, string sHostName, string
     }
     
     // input
-    std::string input_type = SRS_CONF_DEFAULT_INGEST_TYPE_STREAM;
+    std::string input_type = "stream";
 
     if (srs_config_ingest_is_stream(input_type)) {
         std::string input_url = sSourceUrl;
