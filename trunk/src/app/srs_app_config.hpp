@@ -184,9 +184,9 @@ private:
 private:
     ISrsReloadHandler* subscribes;
 public:
-    SrsConfHost() {}
-    ~SrsConfHost() {}
-	std::string get_Host_name()  { return sHostName; }
+    SrsConfHost();
+    ~SrsConfHost();
+	std::string get_host_name()  { return sHostName; }
 	std::vector<SrsConfIngest*> get_conf_ingest()  { return vConfIngest; }
 public:
     int addIngest(SrsConfIngest* ingest);

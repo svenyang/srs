@@ -574,7 +574,7 @@ int SrsIngester::parse_enginesex(string sHostName, string sStreamId,
 {
     int ret = ERROR_SUCCESS;
     
-    std::string ffmpeg_bin = "ffmpeg";
+    std::string ffmpeg_bin = "/usr/bin/ffmpeg";
     if (ffmpeg_bin.empty()) {
         ret = ERROR_ENCODER_PARSE;
         srs_trace("empty ffmpeg ret=%d", ret);
@@ -713,7 +713,7 @@ int SrsIngester::initialize_ffmpegex(SrsFFMPEG* ffmpeg, string sHostName, string
     }
     
     // set output format to flv for RTMP
-    ffmpeg->set_oformat("rtmp");
+    ffmpeg->set_oformat("flv");
     
     std::string vcodec = "";
     std::string acodec = "";

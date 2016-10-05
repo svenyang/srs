@@ -452,14 +452,29 @@ int SrsConfDirective::read_token(SrsConfigBuffer* buffer, vector<string>& args, 
 }
 
 //SrsConfHost
+
+SrsConfHost::SrsConfHost()
+{
+	this->sHostName = "garenalive";
+	this->subscribes = NULL;
+}
+
 int SrsConfHost::addIngest(SrsConfIngest* ingest)
 {
     int ret = ERROR_SUCCESS;
     vConfIngest.push_back(ingest);
     if( this->subscribes != NULL)
     {
-        this->subscribes->on_add_ingest(sHostName, ingest->sStreamId, 
-        ingest->sSourceUrl, ingest->vDestUrl[0]);
+		if(ingest->vDestUrl.size() != 0)
+		{
+			this->subscribes->on_add_ingest(sHostName, ingest->sStreamId, 
+					ingest->sSourceUrl, ingest->vDestUrl[0]);
+		}
+		else
+		{
+			this->subscribes->on_add_ingest(sHostName, ingest->sStreamId, 
+					ingest->sSourceUrl, "");
+		}
     }
     return ret;
 }

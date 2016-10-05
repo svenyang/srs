@@ -48,6 +48,8 @@ using namespace std;
 #include <srs_app_statistic.hpp>
 #include <srs_app_caster_flv.hpp>
 #include <srs_core_mem_watch.hpp>
+#include <google/protobuf/text_format.h>
+#include <IMSMessage.pb.h>
 
 // signal defines.
 #define SIGNAL_RELOAD SIGHUP
@@ -361,11 +363,39 @@ int SrsCmdUdpListener::on_udp_packet(sockaddr_in* from, char* buf, int nb_buf)
 {
     int ret = ERROR_SUCCESS;
     srs_trace("Recv from other server bytes:%s, Cnt:%d", buf, nb_buf);
+	
+	string tempbuf(buf, nb_buf);
+	IMSMessage* pMsg = new IMSMessage();
+	pMsg->ParseFromString(tempbuf);
 
-    SrsStatistic* stat = SrsStatistic::instance();
-    stringstream str;
-    stat->dumps_clients(str, 0, 10);
-    srs_trace("dumps_client: %s", str.str().c_str()); 
+	string str;
+	google::protobuf::TextFormat::PrintToString(*pMsg, &str);
+	srs_trace("recv protobuf buffer is %s", str.c_str());
+
+	if( pMsg->cmd() == "AddStream")
+	{
+		if( pMsg->has_addstream())
+		{
+			SrsConfIngest* pAddIngest = new SrsConfIngest();
+			pAddIngest->sStreamId = pMsg->addstream().streamid();
+			string sOriginUrlHeader = "http://3294.liveplay.myqcloud.com:8080/live/";
+			pAddIngest->sSourceUrl = sOriginUrlHeader + pMsg->addstream().streamid() + ".flv";
+			if( pMsg->addstream().rtmpsinkip_size() != 0)
+			{
+				string sRtmpSinkIp = pMsg->addstream().rtmpsinkip(0);
+				string sDestUrl = "rtmp://" + sRtmpSinkIp + ":1935/live/" + pAddIngest->sStreamId;
+				pAddIngest->vDestUrl.push_back(sDestUrl);
+			}
+			srs_trace("srsconfingest %s, %s, %s", _srs_host->get_host_name().c_str(), pAddIngest->sStreamId.c_str(), pAddIngest->sSourceUrl.c_str());
+
+			_srs_host->addIngest(pAddIngest);
+		}
+	}
+
+//    SrsStatistic* stat = SrsStatistic::instance();
+//    stringstream str;
+//    stat->dumps_clients(str, 0, 10);
+//    srs_trace("dumps_client: %s", str.str().c_str()); 
 
     return ret;
 }
