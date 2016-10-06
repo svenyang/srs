@@ -102,6 +102,11 @@ void SrsIngesterFFMPEG::fast_stop()
     ffmpeg->fast_stop();
 }
 
+int SrsIngesterFFMPEG::get_ffmpeg_status()
+{
+	return ffmpeg->get_ffmpeg_status();
+}
+
 SrsIngester::SrsIngester()
 {
     _srs_config->subscribe(this);
@@ -266,6 +271,13 @@ int SrsIngester::cycle()
             srs_error("ingest ffmpeg cycle failed. ret=%d", ret);
             return ret;
         }
+		
+		//if stream end, remove ingesters
+		if( FFMPEG_STREAM_END == ingester->get_ffmpeg_status() )
+		{
+			ret = this->on_stream_end(ingester);
+			return ret;
+		}
     }
 
     // pithy print
@@ -736,6 +748,43 @@ int SrsIngester::initialize_ffmpegex(SrsFFMPEG* ffmpeg, string sHostName, string
     srs_trace("parse success, ingest=%s, vhost=%s", 
         sStreamId.c_str(), sHostName.c_str());
     
+    return ret;
+}
+
+int SrsIngester::on_del_ingest(std::string sStreamId)
+{
+	int ret = ERROR_SUCCESS;
+
+	return ret;
+}
+
+int SrsIngester::on_stream_end(SrsIngesterFFMPEG* ing)
+{
+    int ret = ERROR_SUCCESS;
+
+    std::vector<SrsIngesterFFMPEG*>::iterator it;
+	string vhost = ing->get_host_name();
+	string ingest_id = ing->get_ingest_name();
+    
+    for (it = ingesters.begin(); it != ingesters.end();) {
+        SrsIngesterFFMPEG* ingester = *it;
+        
+        if (!ingester->equals(vhost, ingest_id)) {
+            ++it;
+            continue;
+        }
+        
+        // stop the ffmpeg and free it.
+        ingester->stop();
+        
+        srs_trace("reload stop ingester, vhost=%s, id=%s", vhost.c_str(), ingester->uri().c_str());
+            
+        srs_freep(ingester);
+        
+        // remove the item from ingesters.
+        it = ingesters.erase(it);
+    }
+
     return ret;
 }
 

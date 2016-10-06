@@ -67,6 +67,9 @@ public:
     virtual int cycle();
     // @see SrsFFMPEG.fast_stop().
     virtual void fast_stop();
+	virtual int get_ffmpeg_status();
+	virtual std::string& get_host_name() { return vhost; }
+	virtual std::string& get_ingest_name()  { return id; }
 };
 
 /**
@@ -115,6 +118,8 @@ public:
         std::string sSourceId, std::string sDestUrl);
     virtual int initialize_ffmpegex(SrsFFMPEG* ffmpeg, std::string sHostName, std::string sStreamId, 
         std::string sSourceId, std::string sDestUrl);
+	virtual int on_del_ingest(std::string sStreamId);
+	virtual int on_stream_end(SrsIngesterFFMPEG* ingester);
 
 };
 

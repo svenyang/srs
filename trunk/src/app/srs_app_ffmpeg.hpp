@@ -34,6 +34,14 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <string>
 #include <vector>
 
+enum FFMPEG_STATUS
+{
+	FFMPEG_STARTED = 1,
+	FFMPEG_WAIT_STARTED = 2,
+	FFMPEG_STOPED = 3,
+	FFMPEG_STREAM_END = 4,
+};
+
 class SrsConfDirective;
 class SrsPithyPrint;
 
@@ -47,6 +55,7 @@ private:
     bool started;
     // whether SIGTERM send but need to wait or SIGKILL.
     bool fast_stopped;
+	int ffmpeg_status;
     pid_t pid;
 private:
     std::string log_file;
@@ -92,6 +101,7 @@ public:
      * @remark use fast_stop before stop one by one, when got lots of process to quit.
      */
     virtual void stop();
+	virtual int get_ffmpeg_status() { return ffmpeg_status; }
 public:
     /**
      * the fast stop is to send a SIGTERM.

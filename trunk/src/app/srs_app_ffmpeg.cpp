@@ -53,6 +53,7 @@ using namespace std;
 SrsFFMPEG::SrsFFMPEG(std::string ffmpeg_bin)
 {
     started            = false;
+	ffmpeg_status	   = FFMPEG_WAIT_STARTED;
     fast_stopped       = false;
     pid                = -1;
     ffmpeg             = ffmpeg_bin;
@@ -394,6 +395,8 @@ int SrsFFMPEG::start()
         params.push_back(oformat);
     }
     
+	//attamp to stop and exit on error
+//    params.push_back("-xerror");
     params.push_back("-y");
     params.push_back(_output);
 
@@ -487,6 +490,7 @@ int SrsFFMPEG::start()
     // parent.
     if (pid > 0) {
         started = true;
+		ffmpeg_status = FFMPEG_STARTED;
         srs_trace("vfored ffmpeg encoder engine, pid=%d", pid);
         return ret;
     }
@@ -523,6 +527,7 @@ int SrsFFMPEG::cycle()
     
     srs_trace("transcode process pid=%d terminate, restart it.", pid);
     started = false;
+	ffmpeg_status = FFMPEG_STREAM_END;
     
     return ret;
 }
@@ -545,6 +550,7 @@ void SrsFFMPEG::stop()
     
     // terminated, set started to false to stop the cycle.
     started = false;
+	ffmpeg_status = FFMPEG_STOPED;
 }
 
 void SrsFFMPEG::fast_stop()
@@ -564,6 +570,7 @@ void SrsFFMPEG::fast_stop()
         srs_warn("ignore fast stop ffmpeg failed, pid=%d. ret=%d", pid, ret);
         return;
     }
+	ffmpeg_status = FFMPEG_STOPED;
     
     return;
 }
