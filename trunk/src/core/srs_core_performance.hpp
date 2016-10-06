@@ -137,7 +137,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 * 2. use timeout for cond wait for consumer queue.
 * @see https://github.com/ossrs/srs/issues/257
 */
-#define SRS_PERF_MIN_LATENCY_ENABLED false
+#define SRS_PERF_MIN_LATENCY_ENABLED true
 
 /**
 * how many chunk stream to cache, [0, N].
@@ -151,9 +151,9 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 * the gop cache and play cache queue.
 */
 // whether gop cache is on.
-#define SRS_PERF_GOP_CACHE true
+#define SRS_PERF_GOP_CACHE false
 // in seconds, the live queue length.
-#define SRS_PERF_PLAY_QUEUE 30
+#define SRS_PERF_PLAY_QUEUE 10
 
 /**
 * whether always use complex send algorithm.
