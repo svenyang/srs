@@ -39,6 +39,7 @@ using namespace std;
 // when error, ingester sleep for a while and retry.
 // ingest never sleep a long time, for we must start the stream ASAP.
 #define SRS_AUTO_INGESTER_SLEEP_US (int64_t)(3*1000*1000LL)
+#define MAX_RESTART_FFMPEG_TIMES 4
 
 SrsIngesterFFMPEG::SrsIngesterFFMPEG()
 {
@@ -58,7 +59,7 @@ int SrsIngesterFFMPEG::initialize(SrsFFMPEG* ff, string v, string i)
     vhost = v;
     id = i;
     starttime = srs_get_system_time_ms();
-    
+    iRestartTimes = 0; 
     return ret;
 }
 
@@ -272,12 +273,16 @@ int SrsIngester::cycle()
             return ret;
         }
 		
-		//if stream end, remove ingesters
-		if( FFMPEG_STREAM_END == ingester->get_ffmpeg_status() )
-		{
-			ret = this->on_stream_end(ingester);
-			return ret;
-		}
+        //if ffmpeg process end, restart it, but can't restart over the max set times 
+        if( ingester->get_restart_times() >= MAX_RESTART_FFMPEG_TIMES )
+        {
+            //if stream end, remove ingesters
+            if (FFMPEG_STREAM_END == ingester->get_ffmpeg_status())
+            {
+                ret = this->on_stream_end(ingester);
+                return ret;
+            }
+        }
     }
 
     // pithy print

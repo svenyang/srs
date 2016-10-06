@@ -392,6 +392,15 @@ int SrsCmdUdpListener::on_udp_packet(sockaddr_in* from, char* buf, int nb_buf)
 		}
 	}
 
+
+    //send ack to from add 
+    IMSMessage ackMsg;
+    ackMsg.set_seqno(pMsg->seqno());
+    ackMsg.set_cmd("Ack");
+    string ackStr;
+    ackMsg.SerializeToString(ackStr);
+
+    delete pMsg;
 //    SrsStatistic* stat = SrsStatistic::instance();
 //    stringstream str;
 //    stat->dumps_clients(str, 0, 10);

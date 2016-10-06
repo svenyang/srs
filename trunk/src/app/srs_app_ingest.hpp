@@ -50,6 +50,7 @@ private:
     std::string id;
     SrsFFMPEG* ffmpeg;
     int64_t starttime;
+    int iRestartTimes;
 public:
     SrsIngesterFFMPEG();
     virtual ~SrsIngesterFFMPEG();
@@ -70,6 +71,8 @@ public:
 	virtual int get_ffmpeg_status();
 	virtual std::string& get_host_name() { return vhost; }
 	virtual std::string& get_ingest_name()  { return id; }
+    virtual int get_restart_times()     { return iRestartTimes; }
+    virtual void inc_restart_times()    { iRestartTimes ++ ;}
 };
 
 /**
