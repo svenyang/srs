@@ -377,7 +377,10 @@ int SrsCmdUdpListener::on_udp_packet(sockaddr_in* from, char* buf, int nb_buf)
 		if( pMsg->has_addstream())
 		{
 			SrsConfIngest* pAddIngest = new SrsConfIngest();
-			pAddIngest->sStreamId = pMsg->addstream().streamid();
+
+			string sStreamId = srs_string_trim_end(pMsg->addstream().streamid(), "\n");
+			sStreamId = srs_string_trim_end(sStreamId, " ");
+			pAddIngest->sStreamId = sStreamId;
 			string sOriginUrlHeader = "http://3294.liveplay.myqcloud.com:8080/live/";
 			pAddIngest->sSourceUrl = sOriginUrlHeader + pMsg->addstream().streamid() + ".flv";
 			if( pMsg->addstream().rtmpsinkip_size() != 0)
@@ -398,7 +401,7 @@ int SrsCmdUdpListener::on_udp_packet(sockaddr_in* from, char* buf, int nb_buf)
     ackMsg.set_seqno(pMsg->seqno());
     ackMsg.set_cmd("Ack");
     string ackStr;
-    ackMsg.SerializeToString(ackStr);
+    ackMsg.SerializeToString(&ackStr);
 
     delete pMsg;
 //    SrsStatistic* stat = SrsStatistic::instance();
