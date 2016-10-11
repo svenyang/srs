@@ -272,8 +272,9 @@ int SrsIngester::cycle()
             srs_error("ingest ffmpeg cycle failed. ret=%d", ret);
             return ret;
         }
-		
+			
         //if ffmpeg process end, restart it, but can't restart over the max set times 
+		ingester->inc_restart_times();
         if( ingester->get_restart_times() >= MAX_RESTART_FFMPEG_TIMES )
         {
             //if stream end, remove ingesters
