@@ -40,6 +40,8 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <srs_app_log.hpp>
 #include <srs_kernel_utility.hpp>
 #include <srs_core_performance.hpp>
+#include <srs_main_ims.h>
+#include <gal/loggers_conf.h>
 
 // pre-declare
 int run();
@@ -51,6 +53,11 @@ int run_master();
 // kernel module.
 ISrsLog* _srs_log = new SrsFastLog();
 ISrsThreadContext* _srs_context = new SrsThreadContext();
+
+gal::loggers<gal::Mutex> logs;
+gal::logger* _publish_log = NULL;
+gal::logger* _playing_log = NULL;
+
 // app module.
 SrsConfig* _srs_config = new SrsConfig();
 SrsServer* _srs_server = new SrsServer();
@@ -245,6 +252,25 @@ void check_macro_features()
 #endif
 }
 
+int init_gal_loggers()
+{
+	int iRet = ERROR_SUCCESS;
+	gal::CFileConfig conf;
+	gal::thread_time_provider* tp = new gal::thread_time_provider();
+	tp->start();
+	gal::parse_loggers_gal("./conf/loggers.conf", logs);
+	logs.init_time_provider(tp);
+	logs.start();
+	
+	_publish_log = &logs.get("publish");
+	_playing_log = &logs.get("playing");
+	_playing_log->debug() << "init succ" << endl;
+	srs_trace("_playing_log address 1 %d", _playing_log);
+	_publish_log->debug() << "init succ" << endl;
+
+	return iRet;
+}
+
 /**
 * main entrance.
 */
@@ -276,7 +302,6 @@ int main(int argc, char** argv)
 #ifdef SRS_AUTO_GPERF_MP
     #warning "gmp is not used for memory leak, please use gmc instead."
 #endif
-    
     // never use srs log(srs_trace, srs_error, etc) before config parse the option,
     // which will load the log config and apply it.
     if ((ret = _srs_config->parse_options(argc, argv)) != ERROR_SUCCESS) {
@@ -365,6 +390,11 @@ int run()
     // son
     srs_trace("son(deamon) process running.");
     
+	int ret = 0;
+	if( (ret = init_gal_loggers()) != ERROR_SUCCESS)
+	{
+		return ret;
+	}
     return run_master();
 }
 

@@ -38,6 +38,16 @@ message NumClientsReplyMsg{
 	repeated StreamClientsCount streamclients = 1;
 }
 
+
+/*************************TalkTalk->IMS*********************/
+message NewStreamMsg{
+	optional string streamId = 1;
+}
+
+message StopStreamMsg{
+	optional string streamId = 1;
+}
+
 /*************************Master************************/
 message IMSMessage{
 	optional int64 seqNo = 1;
@@ -46,5 +56,7 @@ message IMSMessage{
 	optional DelStreamMsg delStream = 4;
 	optional StreamEndMsg streamEnd = 5;
 	optional NumClientsReplyMsg NumClientsReplies = 6;
+	optional NewStreamMsg newStream = 7;
+	optional StopStreamMsg stopStream = 8;
 }
 

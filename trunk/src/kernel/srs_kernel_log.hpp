@@ -36,6 +36,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <string.h>
 
 #include <srs_kernel_consts.hpp>
+#include <gal/loggers_conf.h>
 
 /**
 * the log level, for example:
@@ -129,6 +130,12 @@ extern ISrsLog* _srs_log;
 
 // user must implements the LogContext and define a global instance.
 extern ISrsThreadContext* _srs_context;
+
+// gal logs
+extern gal::loggers<gal::Mutex> logs;
+extern gal::logger* _playing_log;
+extern gal::logger* _publish_log;
+
 
 // donot print method
 #if 1

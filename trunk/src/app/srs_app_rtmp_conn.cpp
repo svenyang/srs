@@ -97,6 +97,8 @@ SrsRtmpConn::SrsRtmpConn(SrsServer* svr, st_netfd_t c)
     tcp_nodelay = false;
     
     _srs_config->subscribe(this);
+
+	rtmp_conn_type = srs_client_type_string(SrsRtmpConnUnknown);
 }
 
 SrsRtmpConn::~SrsRtmpConn()
@@ -210,6 +212,29 @@ int SrsRtmpConn::do_cycle()
     ret = service_cycle();
     
     http_hooks_on_close();
+
+	if (rtmp_conn_type == srs_client_type_string(SrsRtmpConnPlay))
+	{
+		_playing_log->debug()
+			<< "client disconnected"
+			<< "|req_ip=" << ip
+			<< "|client_id=" << this->srs_id()
+			<< "|stream_id=" << req->stream 
+			<< "|sourceid=" << req->get_stream_url()
+			<< "|ret=" << ret
+			<< endl;
+	}
+	else if( rtmp_conn_type == srs_client_type_string(SrsRtmpConnFMLEPublish))
+	{
+		_publish_log->debug()
+			<< "source disconnected"
+			<< "|req_ip=" << ip
+			<< "|client_id=" << this->srs_id()
+			<< "|stream_id=" << req->stream 
+			<< "|sourceid=" << req->get_stream_url()
+			<< "|ret=" << ret
+			<< endl;
+	}
 
     return ret;
 }
@@ -473,7 +498,7 @@ int SrsRtmpConn::stream_service_cycle()
     req->strip();
     srs_trace("client identified, type=%s, stream_name=%s, duration=%.2f", 
         srs_client_type_string(type).c_str(), req->stream.c_str(), req->duration);
-    
+	rtmp_conn_type = srs_client_type_string(type); 
     // security check
     if ((ret = security->check(type, ip, req)) != ERROR_SUCCESS) {
         srs_error("security check failed. ret=%d", ret);
@@ -511,7 +536,14 @@ int SrsRtmpConn::stream_service_cycle()
     switch (type) {
         case SrsRtmpConnPlay: {
             srs_verbose("start to play stream %s.", req->stream.c_str());
-            
+			_playing_log->debug()
+				<< "userclient connect"
+				<< "|req_ip=" << ip 
+				<< "|client_id=" << this->srs_id()
+				<< "|req_streamid=" << req->stream 
+				<< "|sourceid=" << req->get_stream_url()
+				<< "|hascache=" << enabled_cache
+				<< endl;
             // response connection start play
             if ((ret = rtmp->start_play(res->stream_id)) != ERROR_SUCCESS) {
                 srs_error("start to play stream failed. ret=%d", ret);
@@ -530,6 +562,14 @@ int SrsRtmpConn::stream_service_cycle()
         }
         case SrsRtmpConnFMLEPublish: {
             srs_verbose("FMLE start to publish stream %s.", req->stream.c_str());
+			_publish_log->debug()
+				<< "source connect"
+				<< "|req_ip=" << ip 
+				<< "|client_id=" << this->srs_id()
+				<< "|req_streamid=" << req->stream 
+				<< "|sourceid=" << req->get_stream_url()
+				<< "|hascache=" << enabled_cache
+				<< endl;
             
             if ((ret = rtmp->start_fmle_publish(res->stream_id)) != ERROR_SUCCESS) {
                 srs_error("start to publish stream failed. ret=%d", ret);
@@ -731,16 +771,26 @@ int SrsRtmpConn::do_playing(SrsSource* source, SrsConsumer* consumer, SrsQueueRe
             return ret;
         }
 
-        // reportable
+        // reportable 
         if (pprint->can_print()) {
-            kbps->sample();
-            srs_trace("-> "SRS_CONSTS_LOG_PLAY
-                " time=%"PRId64", msgs=%d, okbps=%d,%d,%d, ikbps=%d,%d,%d, mw=%d",
-                pprint->age(), count,
-                kbps->get_send_kbps(), kbps->get_send_kbps_30s(), kbps->get_send_kbps_5m(),
-                kbps->get_recv_kbps(), kbps->get_recv_kbps_30s(), kbps->get_recv_kbps_5m(),
-                mw_sleep
-            );
+			kbps->sample();
+			srs_trace("-> "SRS_CONSTS_LOG_PLAY
+					" time=%"PRId64", msgs=%d, okbps=%d,%d,%d, ikbps=%d,%d,%d, mw=%d",
+					pprint->age(), count,
+					kbps->get_send_kbps(), kbps->get_send_kbps_30s(), kbps->get_send_kbps_5m(),
+					kbps->get_recv_kbps(), kbps->get_recv_kbps_30s(), kbps->get_recv_kbps_5m(),
+					mw_sleep
+					);
+			_playing_log->debug()
+				<< "client playing"
+				<< "|req_ip=" << ip 
+				<< "|client_id=" << this->srs_id()
+				<< "|stream_id=" << req->stream 
+				<< "|fps=" << count 
+				<< "|kbps=" << kbps->get_send_kbps()
+				<< "|kbps_30s=" << kbps->get_send_kbps_30s()
+				<< "|kbps_5m=" << kbps->get_send_kbps_5m()
+				<< endl;
         }
         
         // we use wait timeout to get messages,
@@ -933,6 +983,15 @@ int SrsRtmpConn::do_publishing(SrsSource* source, SrsPublishRecvThread* trd)
                 kbps->get_recv_kbps(), kbps->get_recv_kbps_30s(), kbps->get_recv_kbps_5m(),
                 mr, mr_sleep, publish_1stpkt_timeout, publish_normal_timeout
             );
+			_publish_log->debug()
+				<< "source publishing"
+				<< "|req_ip=" << ip 
+				<< "|client_id=" << this->srs_id()
+				<< "|stream_id=" << req->stream 
+				<< "|kbps=" << kbps->get_recv_kbps()
+				<< "|kbps_30s=" << kbps->get_recv_kbps_30s()
+				<< "|kbps_5m=" << kbps->get_recv_kbps_5m()
+				<< endl;
         }
     }
 

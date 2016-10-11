@@ -47,6 +47,7 @@ using namespace std;
 #include <srs_rtmp_amf0.hpp>
 #include <srs_raw_avc.hpp>
 #include <srs_app_http_conn.hpp>
+#include <gal/loggers_conf.h>
 
 // pre-declare
 int proxy_hls2rtmp(std::string hls, std::string rtmp);
@@ -57,12 +58,31 @@ int proxy_hls2rtmp(std::string hls, std::string rtmp);
 // kernel module.
 ISrsLog* _srs_log = new SrsFastLog();
 ISrsThreadContext* _srs_context = new ISrsThreadContext();
+
+gal::loggers<gal::Mutex> logs;
+gal::logger* _publish_log;
+gal::logger* _playing_log;
 // app module.
 SrsConfig* _srs_config = NULL;
-SrsConfHost* _srs_host = NULL;
 SrsServer* _srs_server = NULL;
 
 #if defined(SRS_AUTO_HTTP_CORE)
+
+int init_gal_loggers()
+{
+	int iRet = ERROR_SUCCESS;
+	gal::CFileConfig conf;
+	gal::thread_time_provider* tp = new gal::thread_time_provider();
+	tp->start();
+	gal::parse_loggers_gal("../conf/loggers.conf", logs);
+	logs.init_time_provider(tp);
+	logs.start();
+	
+	_publish_log = &logs.get("publish");
+	_playing_log = &logs.get("playing");
+
+	return iRet;
+}
 
 /**
 * main entrance.

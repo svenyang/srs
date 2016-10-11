@@ -93,6 +93,8 @@ private:
     int publish_normal_timeout;
     // whether enable the tcp_nodelay.
     bool tcp_nodelay;
+	// connection type; Unknown;Play;fmle-publish;flash-publish 
+	std::string rtmp_conn_type;
 public:
     SrsRtmpConn(SrsServer* svr, st_netfd_t c);
     virtual ~SrsRtmpConn();
