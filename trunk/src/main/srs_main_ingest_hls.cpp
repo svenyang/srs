@@ -65,6 +65,7 @@ gal::logger* _playing_log;
 // app module.
 SrsConfig* _srs_config = NULL;
 SrsServer* _srs_server = NULL;
+SrsConfHost* _srs_host = NULL;
 
 #if defined(SRS_AUTO_HTTP_CORE)
 

@@ -34,6 +34,12 @@ const ::google::protobuf::internal::GeneratedMessageReflection*
 const ::google::protobuf::Descriptor* NumClientsReplyMsg_descriptor_ = NULL;
 const ::google::protobuf::internal::GeneratedMessageReflection*
   NumClientsReplyMsg_reflection_ = NULL;
+const ::google::protobuf::Descriptor* NewStreamMsg_descriptor_ = NULL;
+const ::google::protobuf::internal::GeneratedMessageReflection*
+  NewStreamMsg_reflection_ = NULL;
+const ::google::protobuf::Descriptor* StopStreamMsg_descriptor_ = NULL;
+const ::google::protobuf::internal::GeneratedMessageReflection*
+  StopStreamMsg_reflection_ = NULL;
 const ::google::protobuf::Descriptor* IMSMessage_descriptor_ = NULL;
 const ::google::protobuf::internal::GeneratedMessageReflection*
   IMSMessage_reflection_ = NULL;
@@ -126,14 +132,46 @@ void protobuf_AssignDesc_IMSMessage_2eproto() {
       sizeof(NumClientsReplyMsg),
       GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(NumClientsReplyMsg, _internal_metadata_),
       -1);
-  IMSMessage_descriptor_ = file->message_type(5);
-  static const int IMSMessage_offsets_[6] = {
+  NewStreamMsg_descriptor_ = file->message_type(5);
+  static const int NewStreamMsg_offsets_[1] = {
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(NewStreamMsg, streamid_),
+  };
+  NewStreamMsg_reflection_ =
+    ::google::protobuf::internal::GeneratedMessageReflection::NewGeneratedMessageReflection(
+      NewStreamMsg_descriptor_,
+      NewStreamMsg::default_instance_,
+      NewStreamMsg_offsets_,
+      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(NewStreamMsg, _has_bits_[0]),
+      -1,
+      -1,
+      sizeof(NewStreamMsg),
+      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(NewStreamMsg, _internal_metadata_),
+      -1);
+  StopStreamMsg_descriptor_ = file->message_type(6);
+  static const int StopStreamMsg_offsets_[1] = {
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(StopStreamMsg, streamid_),
+  };
+  StopStreamMsg_reflection_ =
+    ::google::protobuf::internal::GeneratedMessageReflection::NewGeneratedMessageReflection(
+      StopStreamMsg_descriptor_,
+      StopStreamMsg::default_instance_,
+      StopStreamMsg_offsets_,
+      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(StopStreamMsg, _has_bits_[0]),
+      -1,
+      -1,
+      sizeof(StopStreamMsg),
+      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(StopStreamMsg, _internal_metadata_),
+      -1);
+  IMSMessage_descriptor_ = file->message_type(7);
+  static const int IMSMessage_offsets_[8] = {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(IMSMessage, seqno_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(IMSMessage, cmd_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(IMSMessage, addstream_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(IMSMessage, delstream_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(IMSMessage, streamend_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(IMSMessage, numclientsreplies_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(IMSMessage, newstream_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(IMSMessage, stopstream_),
   };
   IMSMessage_reflection_ =
     ::google::protobuf::internal::GeneratedMessageReflection::NewGeneratedMessageReflection(
@@ -170,6 +208,10 @@ void protobuf_RegisterTypes(const ::std::string&) {
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
       NumClientsReplyMsg_descriptor_, &NumClientsReplyMsg::default_instance());
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
+      NewStreamMsg_descriptor_, &NewStreamMsg::default_instance());
+  ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
+      StopStreamMsg_descriptor_, &StopStreamMsg::default_instance());
+  ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
       IMSMessage_descriptor_, &IMSMessage::default_instance());
 }
 
@@ -186,6 +228,10 @@ void protobuf_ShutdownFile_IMSMessage_2eproto() {
   delete StreamClientsCount_reflection_;
   delete NumClientsReplyMsg::default_instance_;
   delete NumClientsReplyMsg_reflection_;
+  delete NewStreamMsg::default_instance_;
+  delete NewStreamMsg_reflection_;
+  delete StopStreamMsg::default_instance_;
+  delete StopStreamMsg_reflection_;
   delete IMSMessage::default_instance_;
   delete IMSMessage_reflection_;
 }
@@ -205,11 +251,15 @@ void protobuf_AddDesc_IMSMessage_2eproto() {
     "\":\n\022StreamClientsCount\022\020\n\010streamId\030\001 \001(\t"
     "\022\022\n\nnumClients\030\002 \001(\005\"@\n\022NumClientsReplyM"
     "sg\022*\n\rstreamclients\030\001 \003(\0132\023.StreamClient"
-    "sCount\"\276\001\n\nIMSMessage\022\r\n\005seqNo\030\001 \001(\003\022\013\n\003"
-    "cmd\030\002 \001(\t\022 \n\taddStream\030\003 \001(\0132\r.AddStream"
-    "Msg\022 \n\tdelStream\030\004 \001(\0132\r.DelStreamMsg\022 \n"
-    "\tstreamEnd\030\005 \001(\0132\r.StreamEndMsg\022.\n\021NumCl"
-    "ientsReplies\030\006 \001(\0132\023.NumClientsReplyMsg", 479);
+    "sCount\" \n\014NewStreamMsg\022\020\n\010streamId\030\001 \001(\t"
+    "\"!\n\rStopStreamMsg\022\020\n\010streamId\030\001 \001(\t\"\204\002\n\n"
+    "IMSMessage\022\r\n\005seqNo\030\001 \001(\003\022\013\n\003cmd\030\002 \001(\t\022 "
+    "\n\taddStream\030\003 \001(\0132\r.AddStreamMsg\022 \n\tdelS"
+    "tream\030\004 \001(\0132\r.DelStreamMsg\022 \n\tstreamEnd\030"
+    "\005 \001(\0132\r.StreamEndMsg\022.\n\021NumClientsReplie"
+    "s\030\006 \001(\0132\023.NumClientsReplyMsg\022 \n\tnewStrea"
+    "m\030\007 \001(\0132\r.NewStreamMsg\022\"\n\nstopStream\030\010 \001"
+    "(\0132\016.StopStreamMsg", 618);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "IMSMessage.proto", &protobuf_RegisterTypes);
   AddStreamMsg::default_instance_ = new AddStreamMsg();
@@ -217,12 +267,16 @@ void protobuf_AddDesc_IMSMessage_2eproto() {
   StreamEndMsg::default_instance_ = new StreamEndMsg();
   StreamClientsCount::default_instance_ = new StreamClientsCount();
   NumClientsReplyMsg::default_instance_ = new NumClientsReplyMsg();
+  NewStreamMsg::default_instance_ = new NewStreamMsg();
+  StopStreamMsg::default_instance_ = new StopStreamMsg();
   IMSMessage::default_instance_ = new IMSMessage();
   AddStreamMsg::default_instance_->InitAsDefaultInstance();
   DelStreamMsg::default_instance_->InitAsDefaultInstance();
   StreamEndMsg::default_instance_->InitAsDefaultInstance();
   StreamClientsCount::default_instance_->InitAsDefaultInstance();
   NumClientsReplyMsg::default_instance_->InitAsDefaultInstance();
+  NewStreamMsg::default_instance_->InitAsDefaultInstance();
+  StopStreamMsg::default_instance_->InitAsDefaultInstance();
   IMSMessage::default_instance_->InitAsDefaultInstance();
   ::google::protobuf::internal::OnShutdown(&protobuf_ShutdownFile_IMSMessage_2eproto);
 }
@@ -2082,12 +2136,654 @@ NumClientsReplyMsg::streamclients() const {
 // ===================================================================
 
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
+const int NewStreamMsg::kStreamIdFieldNumber;
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
+
+NewStreamMsg::NewStreamMsg()
+  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:NewStreamMsg)
+}
+
+void NewStreamMsg::InitAsDefaultInstance() {
+}
+
+NewStreamMsg::NewStreamMsg(const NewStreamMsg& from)
+  : ::google::protobuf::Message(),
+    _internal_metadata_(NULL) {
+  SharedCtor();
+  MergeFrom(from);
+  // @@protoc_insertion_point(copy_constructor:NewStreamMsg)
+}
+
+void NewStreamMsg::SharedCtor() {
+  ::google::protobuf::internal::GetEmptyString();
+  _cached_size_ = 0;
+  streamid_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  ::memset(_has_bits_, 0, sizeof(_has_bits_));
+}
+
+NewStreamMsg::~NewStreamMsg() {
+  // @@protoc_insertion_point(destructor:NewStreamMsg)
+  SharedDtor();
+}
+
+void NewStreamMsg::SharedDtor() {
+  streamid_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (this != default_instance_) {
+  }
+}
+
+void NewStreamMsg::SetCachedSize(int size) const {
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+}
+const ::google::protobuf::Descriptor* NewStreamMsg::descriptor() {
+  protobuf_AssignDescriptorsOnce();
+  return NewStreamMsg_descriptor_;
+}
+
+const NewStreamMsg& NewStreamMsg::default_instance() {
+  if (default_instance_ == NULL) protobuf_AddDesc_IMSMessage_2eproto();
+  return *default_instance_;
+}
+
+NewStreamMsg* NewStreamMsg::default_instance_ = NULL;
+
+NewStreamMsg* NewStreamMsg::New(::google::protobuf::Arena* arena) const {
+  NewStreamMsg* n = new NewStreamMsg;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
+
+void NewStreamMsg::Clear() {
+// @@protoc_insertion_point(message_clear_start:NewStreamMsg)
+  if (has_streamid()) {
+    streamid_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  }
+  ::memset(_has_bits_, 0, sizeof(_has_bits_));
+  if (_internal_metadata_.have_unknown_fields()) {
+    mutable_unknown_fields()->Clear();
+  }
+}
+
+bool NewStreamMsg::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
+  ::google::protobuf::uint32 tag;
+  // @@protoc_insertion_point(parse_start:NewStreamMsg)
+  for (;;) {
+    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoff(127);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
+    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+      // optional string streamId = 1;
+      case 1: {
+        if (tag == 10) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_streamid()));
+          ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+            this->streamid().data(), this->streamid().length(),
+            ::google::protobuf::internal::WireFormat::PARSE,
+            "NewStreamMsg.streamId");
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectAtEnd()) goto success;
+        break;
+      }
+
+      default: {
+      handle_unusual:
+        if (tag == 0 ||
+            ::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
+          goto success;
+        }
+        DO_(::google::protobuf::internal::WireFormat::SkipField(
+              input, tag, mutable_unknown_fields()));
+        break;
+      }
+    }
+  }
+success:
+  // @@protoc_insertion_point(parse_success:NewStreamMsg)
+  return true;
+failure:
+  // @@protoc_insertion_point(parse_failure:NewStreamMsg)
+  return false;
+#undef DO_
+}
+
+void NewStreamMsg::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:NewStreamMsg)
+  // optional string streamId = 1;
+  if (has_streamid()) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->streamid().data(), this->streamid().length(),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "NewStreamMsg.streamId");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+      1, this->streamid(), output);
+  }
+
+  if (_internal_metadata_.have_unknown_fields()) {
+    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
+        unknown_fields(), output);
+  }
+  // @@protoc_insertion_point(serialize_end:NewStreamMsg)
+}
+
+::google::protobuf::uint8* NewStreamMsg::InternalSerializeWithCachedSizesToArray(
+    bool deterministic, ::google::protobuf::uint8* target) const {
+  (void)deterministic; // Unused
+  // @@protoc_insertion_point(serialize_to_array_start:NewStreamMsg)
+  // optional string streamId = 1;
+  if (has_streamid()) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->streamid().data(), this->streamid().length(),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "NewStreamMsg.streamId");
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+        1, this->streamid(), target);
+  }
+
+  if (_internal_metadata_.have_unknown_fields()) {
+    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
+        unknown_fields(), target);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:NewStreamMsg)
+  return target;
+}
+
+int NewStreamMsg::ByteSize() const {
+// @@protoc_insertion_point(message_byte_size_start:NewStreamMsg)
+  int total_size = 0;
+
+  // optional string streamId = 1;
+  if (has_streamid()) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->streamid());
+  }
+
+  if (_internal_metadata_.have_unknown_fields()) {
+    total_size +=
+      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
+        unknown_fields());
+  }
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = total_size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+  return total_size;
+}
+
+void NewStreamMsg::MergeFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:NewStreamMsg)
+  if (GOOGLE_PREDICT_FALSE(&from == this)) {
+    ::google::protobuf::internal::MergeFromFail(__FILE__, __LINE__);
+  }
+  const NewStreamMsg* source = 
+      ::google::protobuf::internal::DynamicCastToGenerated<const NewStreamMsg>(
+          &from);
+  if (source == NULL) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:NewStreamMsg)
+    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:NewStreamMsg)
+    MergeFrom(*source);
+  }
+}
+
+void NewStreamMsg::MergeFrom(const NewStreamMsg& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:NewStreamMsg)
+  if (GOOGLE_PREDICT_FALSE(&from == this)) {
+    ::google::protobuf::internal::MergeFromFail(__FILE__, __LINE__);
+  }
+  if (from._has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    if (from.has_streamid()) {
+      set_has_streamid();
+      streamid_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.streamid_);
+    }
+  }
+  if (from._internal_metadata_.have_unknown_fields()) {
+    mutable_unknown_fields()->MergeFrom(from.unknown_fields());
+  }
+}
+
+void NewStreamMsg::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:NewStreamMsg)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void NewStreamMsg::CopyFrom(const NewStreamMsg& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:NewStreamMsg)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool NewStreamMsg::IsInitialized() const {
+
+  return true;
+}
+
+void NewStreamMsg::Swap(NewStreamMsg* other) {
+  if (other == this) return;
+  InternalSwap(other);
+}
+void NewStreamMsg::InternalSwap(NewStreamMsg* other) {
+  streamid_.Swap(&other->streamid_);
+  std::swap(_has_bits_[0], other->_has_bits_[0]);
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  std::swap(_cached_size_, other->_cached_size_);
+}
+
+::google::protobuf::Metadata NewStreamMsg::GetMetadata() const {
+  protobuf_AssignDescriptorsOnce();
+  ::google::protobuf::Metadata metadata;
+  metadata.descriptor = NewStreamMsg_descriptor_;
+  metadata.reflection = NewStreamMsg_reflection_;
+  return metadata;
+}
+
+#if PROTOBUF_INLINE_NOT_IN_HEADERS
+// NewStreamMsg
+
+// optional string streamId = 1;
+bool NewStreamMsg::has_streamid() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+void NewStreamMsg::set_has_streamid() {
+  _has_bits_[0] |= 0x00000001u;
+}
+void NewStreamMsg::clear_has_streamid() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+void NewStreamMsg::clear_streamid() {
+  streamid_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  clear_has_streamid();
+}
+ const ::std::string& NewStreamMsg::streamid() const {
+  // @@protoc_insertion_point(field_get:NewStreamMsg.streamId)
+  return streamid_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ void NewStreamMsg::set_streamid(const ::std::string& value) {
+  set_has_streamid();
+  streamid_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:NewStreamMsg.streamId)
+}
+ void NewStreamMsg::set_streamid(const char* value) {
+  set_has_streamid();
+  streamid_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:NewStreamMsg.streamId)
+}
+ void NewStreamMsg::set_streamid(const char* value, size_t size) {
+  set_has_streamid();
+  streamid_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:NewStreamMsg.streamId)
+}
+ ::std::string* NewStreamMsg::mutable_streamid() {
+  set_has_streamid();
+  // @@protoc_insertion_point(field_mutable:NewStreamMsg.streamId)
+  return streamid_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ ::std::string* NewStreamMsg::release_streamid() {
+  // @@protoc_insertion_point(field_release:NewStreamMsg.streamId)
+  clear_has_streamid();
+  return streamid_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ void NewStreamMsg::set_allocated_streamid(::std::string* streamid) {
+  if (streamid != NULL) {
+    set_has_streamid();
+  } else {
+    clear_has_streamid();
+  }
+  streamid_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), streamid);
+  // @@protoc_insertion_point(field_set_allocated:NewStreamMsg.streamId)
+}
+
+#endif  // PROTOBUF_INLINE_NOT_IN_HEADERS
+
+// ===================================================================
+
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
+const int StopStreamMsg::kStreamIdFieldNumber;
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
+
+StopStreamMsg::StopStreamMsg()
+  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:StopStreamMsg)
+}
+
+void StopStreamMsg::InitAsDefaultInstance() {
+}
+
+StopStreamMsg::StopStreamMsg(const StopStreamMsg& from)
+  : ::google::protobuf::Message(),
+    _internal_metadata_(NULL) {
+  SharedCtor();
+  MergeFrom(from);
+  // @@protoc_insertion_point(copy_constructor:StopStreamMsg)
+}
+
+void StopStreamMsg::SharedCtor() {
+  ::google::protobuf::internal::GetEmptyString();
+  _cached_size_ = 0;
+  streamid_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  ::memset(_has_bits_, 0, sizeof(_has_bits_));
+}
+
+StopStreamMsg::~StopStreamMsg() {
+  // @@protoc_insertion_point(destructor:StopStreamMsg)
+  SharedDtor();
+}
+
+void StopStreamMsg::SharedDtor() {
+  streamid_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (this != default_instance_) {
+  }
+}
+
+void StopStreamMsg::SetCachedSize(int size) const {
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+}
+const ::google::protobuf::Descriptor* StopStreamMsg::descriptor() {
+  protobuf_AssignDescriptorsOnce();
+  return StopStreamMsg_descriptor_;
+}
+
+const StopStreamMsg& StopStreamMsg::default_instance() {
+  if (default_instance_ == NULL) protobuf_AddDesc_IMSMessage_2eproto();
+  return *default_instance_;
+}
+
+StopStreamMsg* StopStreamMsg::default_instance_ = NULL;
+
+StopStreamMsg* StopStreamMsg::New(::google::protobuf::Arena* arena) const {
+  StopStreamMsg* n = new StopStreamMsg;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
+
+void StopStreamMsg::Clear() {
+// @@protoc_insertion_point(message_clear_start:StopStreamMsg)
+  if (has_streamid()) {
+    streamid_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  }
+  ::memset(_has_bits_, 0, sizeof(_has_bits_));
+  if (_internal_metadata_.have_unknown_fields()) {
+    mutable_unknown_fields()->Clear();
+  }
+}
+
+bool StopStreamMsg::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
+  ::google::protobuf::uint32 tag;
+  // @@protoc_insertion_point(parse_start:StopStreamMsg)
+  for (;;) {
+    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoff(127);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
+    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+      // optional string streamId = 1;
+      case 1: {
+        if (tag == 10) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_streamid()));
+          ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+            this->streamid().data(), this->streamid().length(),
+            ::google::protobuf::internal::WireFormat::PARSE,
+            "StopStreamMsg.streamId");
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectAtEnd()) goto success;
+        break;
+      }
+
+      default: {
+      handle_unusual:
+        if (tag == 0 ||
+            ::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
+          goto success;
+        }
+        DO_(::google::protobuf::internal::WireFormat::SkipField(
+              input, tag, mutable_unknown_fields()));
+        break;
+      }
+    }
+  }
+success:
+  // @@protoc_insertion_point(parse_success:StopStreamMsg)
+  return true;
+failure:
+  // @@protoc_insertion_point(parse_failure:StopStreamMsg)
+  return false;
+#undef DO_
+}
+
+void StopStreamMsg::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:StopStreamMsg)
+  // optional string streamId = 1;
+  if (has_streamid()) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->streamid().data(), this->streamid().length(),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "StopStreamMsg.streamId");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+      1, this->streamid(), output);
+  }
+
+  if (_internal_metadata_.have_unknown_fields()) {
+    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
+        unknown_fields(), output);
+  }
+  // @@protoc_insertion_point(serialize_end:StopStreamMsg)
+}
+
+::google::protobuf::uint8* StopStreamMsg::InternalSerializeWithCachedSizesToArray(
+    bool deterministic, ::google::protobuf::uint8* target) const {
+  (void)deterministic; // Unused
+  // @@protoc_insertion_point(serialize_to_array_start:StopStreamMsg)
+  // optional string streamId = 1;
+  if (has_streamid()) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->streamid().data(), this->streamid().length(),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "StopStreamMsg.streamId");
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+        1, this->streamid(), target);
+  }
+
+  if (_internal_metadata_.have_unknown_fields()) {
+    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
+        unknown_fields(), target);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:StopStreamMsg)
+  return target;
+}
+
+int StopStreamMsg::ByteSize() const {
+// @@protoc_insertion_point(message_byte_size_start:StopStreamMsg)
+  int total_size = 0;
+
+  // optional string streamId = 1;
+  if (has_streamid()) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->streamid());
+  }
+
+  if (_internal_metadata_.have_unknown_fields()) {
+    total_size +=
+      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
+        unknown_fields());
+  }
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = total_size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+  return total_size;
+}
+
+void StopStreamMsg::MergeFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:StopStreamMsg)
+  if (GOOGLE_PREDICT_FALSE(&from == this)) {
+    ::google::protobuf::internal::MergeFromFail(__FILE__, __LINE__);
+  }
+  const StopStreamMsg* source = 
+      ::google::protobuf::internal::DynamicCastToGenerated<const StopStreamMsg>(
+          &from);
+  if (source == NULL) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:StopStreamMsg)
+    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:StopStreamMsg)
+    MergeFrom(*source);
+  }
+}
+
+void StopStreamMsg::MergeFrom(const StopStreamMsg& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:StopStreamMsg)
+  if (GOOGLE_PREDICT_FALSE(&from == this)) {
+    ::google::protobuf::internal::MergeFromFail(__FILE__, __LINE__);
+  }
+  if (from._has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    if (from.has_streamid()) {
+      set_has_streamid();
+      streamid_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.streamid_);
+    }
+  }
+  if (from._internal_metadata_.have_unknown_fields()) {
+    mutable_unknown_fields()->MergeFrom(from.unknown_fields());
+  }
+}
+
+void StopStreamMsg::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:StopStreamMsg)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void StopStreamMsg::CopyFrom(const StopStreamMsg& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:StopStreamMsg)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool StopStreamMsg::IsInitialized() const {
+
+  return true;
+}
+
+void StopStreamMsg::Swap(StopStreamMsg* other) {
+  if (other == this) return;
+  InternalSwap(other);
+}
+void StopStreamMsg::InternalSwap(StopStreamMsg* other) {
+  streamid_.Swap(&other->streamid_);
+  std::swap(_has_bits_[0], other->_has_bits_[0]);
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  std::swap(_cached_size_, other->_cached_size_);
+}
+
+::google::protobuf::Metadata StopStreamMsg::GetMetadata() const {
+  protobuf_AssignDescriptorsOnce();
+  ::google::protobuf::Metadata metadata;
+  metadata.descriptor = StopStreamMsg_descriptor_;
+  metadata.reflection = StopStreamMsg_reflection_;
+  return metadata;
+}
+
+#if PROTOBUF_INLINE_NOT_IN_HEADERS
+// StopStreamMsg
+
+// optional string streamId = 1;
+bool StopStreamMsg::has_streamid() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+void StopStreamMsg::set_has_streamid() {
+  _has_bits_[0] |= 0x00000001u;
+}
+void StopStreamMsg::clear_has_streamid() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+void StopStreamMsg::clear_streamid() {
+  streamid_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  clear_has_streamid();
+}
+ const ::std::string& StopStreamMsg::streamid() const {
+  // @@protoc_insertion_point(field_get:StopStreamMsg.streamId)
+  return streamid_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ void StopStreamMsg::set_streamid(const ::std::string& value) {
+  set_has_streamid();
+  streamid_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:StopStreamMsg.streamId)
+}
+ void StopStreamMsg::set_streamid(const char* value) {
+  set_has_streamid();
+  streamid_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:StopStreamMsg.streamId)
+}
+ void StopStreamMsg::set_streamid(const char* value, size_t size) {
+  set_has_streamid();
+  streamid_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:StopStreamMsg.streamId)
+}
+ ::std::string* StopStreamMsg::mutable_streamid() {
+  set_has_streamid();
+  // @@protoc_insertion_point(field_mutable:StopStreamMsg.streamId)
+  return streamid_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ ::std::string* StopStreamMsg::release_streamid() {
+  // @@protoc_insertion_point(field_release:StopStreamMsg.streamId)
+  clear_has_streamid();
+  return streamid_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ void StopStreamMsg::set_allocated_streamid(::std::string* streamid) {
+  if (streamid != NULL) {
+    set_has_streamid();
+  } else {
+    clear_has_streamid();
+  }
+  streamid_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), streamid);
+  // @@protoc_insertion_point(field_set_allocated:StopStreamMsg.streamId)
+}
+
+#endif  // PROTOBUF_INLINE_NOT_IN_HEADERS
+
+// ===================================================================
+
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
 const int IMSMessage::kSeqNoFieldNumber;
 const int IMSMessage::kCmdFieldNumber;
 const int IMSMessage::kAddStreamFieldNumber;
 const int IMSMessage::kDelStreamFieldNumber;
 const int IMSMessage::kStreamEndFieldNumber;
 const int IMSMessage::kNumClientsRepliesFieldNumber;
+const int IMSMessage::kNewStreamFieldNumber;
+const int IMSMessage::kStopStreamFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 IMSMessage::IMSMessage()
@@ -2101,6 +2797,8 @@ void IMSMessage::InitAsDefaultInstance() {
   delstream_ = const_cast< ::DelStreamMsg*>(&::DelStreamMsg::default_instance());
   streamend_ = const_cast< ::StreamEndMsg*>(&::StreamEndMsg::default_instance());
   numclientsreplies_ = const_cast< ::NumClientsReplyMsg*>(&::NumClientsReplyMsg::default_instance());
+  newstream_ = const_cast< ::NewStreamMsg*>(&::NewStreamMsg::default_instance());
+  stopstream_ = const_cast< ::StopStreamMsg*>(&::StopStreamMsg::default_instance());
 }
 
 IMSMessage::IMSMessage(const IMSMessage& from)
@@ -2120,6 +2818,8 @@ void IMSMessage::SharedCtor() {
   delstream_ = NULL;
   streamend_ = NULL;
   numclientsreplies_ = NULL;
+  newstream_ = NULL;
+  stopstream_ = NULL;
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
 
@@ -2135,6 +2835,8 @@ void IMSMessage::SharedDtor() {
     delete delstream_;
     delete streamend_;
     delete numclientsreplies_;
+    delete newstream_;
+    delete stopstream_;
   }
 }
 
@@ -2165,7 +2867,7 @@ IMSMessage* IMSMessage::New(::google::protobuf::Arena* arena) const {
 
 void IMSMessage::Clear() {
 // @@protoc_insertion_point(message_clear_start:IMSMessage)
-  if (_has_bits_[0 / 32] & 63u) {
+  if (_has_bits_[0 / 32] & 255u) {
     seqno_ = GOOGLE_LONGLONG(0);
     if (has_cmd()) {
       cmd_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
@@ -2181,6 +2883,12 @@ void IMSMessage::Clear() {
     }
     if (has_numclientsreplies()) {
       if (numclientsreplies_ != NULL) numclientsreplies_->::NumClientsReplyMsg::Clear();
+    }
+    if (has_newstream()) {
+      if (newstream_ != NULL) newstream_->::NewStreamMsg::Clear();
+    }
+    if (has_stopstream()) {
+      if (stopstream_ != NULL) stopstream_->::StopStreamMsg::Clear();
     }
   }
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
@@ -2278,6 +2986,32 @@ bool IMSMessage::MergePartialFromCodedStream(
         } else {
           goto handle_unusual;
         }
+        if (input->ExpectTag(58)) goto parse_newStream;
+        break;
+      }
+
+      // optional .NewStreamMsg newStream = 7;
+      case 7: {
+        if (tag == 58) {
+         parse_newStream:
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
+               input, mutable_newstream()));
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectTag(66)) goto parse_stopStream;
+        break;
+      }
+
+      // optional .StopStreamMsg stopStream = 8;
+      case 8: {
+        if (tag == 66) {
+         parse_stopStream:
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
+               input, mutable_stopstream()));
+        } else {
+          goto handle_unusual;
+        }
         if (input->ExpectAtEnd()) goto success;
         break;
       }
@@ -2346,6 +3080,18 @@ void IMSMessage::SerializeWithCachedSizes(
       6, *this->numclientsreplies_, output);
   }
 
+  // optional .NewStreamMsg newStream = 7;
+  if (has_newstream()) {
+    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
+      7, *this->newstream_, output);
+  }
+
+  // optional .StopStreamMsg stopStream = 8;
+  if (has_stopstream()) {
+    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
+      8, *this->stopstream_, output);
+  }
+
   if (_internal_metadata_.have_unknown_fields()) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         unknown_fields(), output);
@@ -2401,6 +3147,20 @@ void IMSMessage::SerializeWithCachedSizes(
         6, *this->numclientsreplies_, false, target);
   }
 
+  // optional .NewStreamMsg newStream = 7;
+  if (has_newstream()) {
+    target = ::google::protobuf::internal::WireFormatLite::
+      InternalWriteMessageNoVirtualToArray(
+        7, *this->newstream_, false, target);
+  }
+
+  // optional .StopStreamMsg stopStream = 8;
+  if (has_stopstream()) {
+    target = ::google::protobuf::internal::WireFormatLite::
+      InternalWriteMessageNoVirtualToArray(
+        8, *this->stopstream_, false, target);
+  }
+
   if (_internal_metadata_.have_unknown_fields()) {
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         unknown_fields(), target);
@@ -2413,7 +3173,7 @@ int IMSMessage::ByteSize() const {
 // @@protoc_insertion_point(message_byte_size_start:IMSMessage)
   int total_size = 0;
 
-  if (_has_bits_[0 / 32] & 63u) {
+  if (_has_bits_[0 / 32] & 255u) {
     // optional int64 seqNo = 1;
     if (has_seqno()) {
       total_size += 1 +
@@ -2454,6 +3214,20 @@ int IMSMessage::ByteSize() const {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
           *this->numclientsreplies_);
+    }
+
+    // optional .NewStreamMsg newStream = 7;
+    if (has_newstream()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
+          *this->newstream_);
+    }
+
+    // optional .StopStreamMsg stopStream = 8;
+    if (has_stopstream()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
+          *this->stopstream_);
     }
 
   }
@@ -2510,6 +3284,12 @@ void IMSMessage::MergeFrom(const IMSMessage& from) {
     if (from.has_numclientsreplies()) {
       mutable_numclientsreplies()->::NumClientsReplyMsg::MergeFrom(from.numclientsreplies());
     }
+    if (from.has_newstream()) {
+      mutable_newstream()->::NewStreamMsg::MergeFrom(from.newstream());
+    }
+    if (from.has_stopstream()) {
+      mutable_stopstream()->::StopStreamMsg::MergeFrom(from.stopstream());
+    }
   }
   if (from._internal_metadata_.have_unknown_fields()) {
     mutable_unknown_fields()->MergeFrom(from.unknown_fields());
@@ -2546,6 +3326,8 @@ void IMSMessage::InternalSwap(IMSMessage* other) {
   std::swap(delstream_, other->delstream_);
   std::swap(streamend_, other->streamend_);
   std::swap(numclientsreplies_, other->numclientsreplies_);
+  std::swap(newstream_, other->newstream_);
+  std::swap(stopstream_, other->stopstream_);
   std::swap(_has_bits_[0], other->_has_bits_[0]);
   _internal_metadata_.Swap(&other->_internal_metadata_);
   std::swap(_cached_size_, other->_cached_size_);
@@ -2814,6 +3596,94 @@ void IMSMessage::set_allocated_numclientsreplies(::NumClientsReplyMsg* numclient
     clear_has_numclientsreplies();
   }
   // @@protoc_insertion_point(field_set_allocated:IMSMessage.NumClientsReplies)
+}
+
+// optional .NewStreamMsg newStream = 7;
+bool IMSMessage::has_newstream() const {
+  return (_has_bits_[0] & 0x00000040u) != 0;
+}
+void IMSMessage::set_has_newstream() {
+  _has_bits_[0] |= 0x00000040u;
+}
+void IMSMessage::clear_has_newstream() {
+  _has_bits_[0] &= ~0x00000040u;
+}
+void IMSMessage::clear_newstream() {
+  if (newstream_ != NULL) newstream_->::NewStreamMsg::Clear();
+  clear_has_newstream();
+}
+const ::NewStreamMsg& IMSMessage::newstream() const {
+  // @@protoc_insertion_point(field_get:IMSMessage.newStream)
+  return newstream_ != NULL ? *newstream_ : *default_instance_->newstream_;
+}
+::NewStreamMsg* IMSMessage::mutable_newstream() {
+  set_has_newstream();
+  if (newstream_ == NULL) {
+    newstream_ = new ::NewStreamMsg;
+  }
+  // @@protoc_insertion_point(field_mutable:IMSMessage.newStream)
+  return newstream_;
+}
+::NewStreamMsg* IMSMessage::release_newstream() {
+  // @@protoc_insertion_point(field_release:IMSMessage.newStream)
+  clear_has_newstream();
+  ::NewStreamMsg* temp = newstream_;
+  newstream_ = NULL;
+  return temp;
+}
+void IMSMessage::set_allocated_newstream(::NewStreamMsg* newstream) {
+  delete newstream_;
+  newstream_ = newstream;
+  if (newstream) {
+    set_has_newstream();
+  } else {
+    clear_has_newstream();
+  }
+  // @@protoc_insertion_point(field_set_allocated:IMSMessage.newStream)
+}
+
+// optional .StopStreamMsg stopStream = 8;
+bool IMSMessage::has_stopstream() const {
+  return (_has_bits_[0] & 0x00000080u) != 0;
+}
+void IMSMessage::set_has_stopstream() {
+  _has_bits_[0] |= 0x00000080u;
+}
+void IMSMessage::clear_has_stopstream() {
+  _has_bits_[0] &= ~0x00000080u;
+}
+void IMSMessage::clear_stopstream() {
+  if (stopstream_ != NULL) stopstream_->::StopStreamMsg::Clear();
+  clear_has_stopstream();
+}
+const ::StopStreamMsg& IMSMessage::stopstream() const {
+  // @@protoc_insertion_point(field_get:IMSMessage.stopStream)
+  return stopstream_ != NULL ? *stopstream_ : *default_instance_->stopstream_;
+}
+::StopStreamMsg* IMSMessage::mutable_stopstream() {
+  set_has_stopstream();
+  if (stopstream_ == NULL) {
+    stopstream_ = new ::StopStreamMsg;
+  }
+  // @@protoc_insertion_point(field_mutable:IMSMessage.stopStream)
+  return stopstream_;
+}
+::StopStreamMsg* IMSMessage::release_stopstream() {
+  // @@protoc_insertion_point(field_release:IMSMessage.stopStream)
+  clear_has_stopstream();
+  ::StopStreamMsg* temp = stopstream_;
+  stopstream_ = NULL;
+  return temp;
+}
+void IMSMessage::set_allocated_stopstream(::StopStreamMsg* stopstream) {
+  delete stopstream_;
+  stopstream_ = stopstream;
+  if (stopstream) {
+    set_has_stopstream();
+  } else {
+    clear_has_stopstream();
+  }
+  // @@protoc_insertion_point(field_set_allocated:IMSMessage.stopStream)
 }
 
 #endif  // PROTOBUF_INLINE_NOT_IN_HEADERS

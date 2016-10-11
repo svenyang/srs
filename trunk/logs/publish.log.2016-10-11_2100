@@ -1,0 +1,6 @@
+[2016-10-11 13:08:17.776962] source connect|req_ip=127.0.0.1|client_id=106|req_streamid=livestream|sourceid=/live/livestream|hascache=0
+[2016-10-11 13:08:57.825879] source publishing|req_ip=127.0.0.1|client_id=106|stream_id=livestream|kbps=269|kbps_30s=279|kbps_5m=0
+[2016-10-11 13:09:17.826207] source publishing|req_ip=127.0.0.1|client_id=106|stream_id=livestream|kbps=262|kbps_30s=279|kbps_5m=0
+[2016-10-11 13:09:37.826366] source publishing|req_ip=127.0.0.1|client_id=106|stream_id=livestream|kbps=246|kbps_30s=236|kbps_5m=0
+[2016-10-11 13:09:57.826351] source publishing|req_ip=127.0.0.1|client_id=106|stream_id=livestream|kbps=241|kbps_30s=206|kbps_5m=0
+[2016-10-11 13:10:05.305754] source disconnected|req_ip=127.0.0.1|client_id=106|stream_id=livestream|sourceid=/live/livestream|ret=1007

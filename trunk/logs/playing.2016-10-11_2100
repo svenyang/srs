@@ -1,0 +1,4 @@
+[2016-10-11 13:09:35.925014] userclient connect|req_ip=10.2.64.140|client_id=111|req_streamid=livestream|sourceid=/live/livestream|hascache=0
+[2016-10-11 13:09:46.022843] client playing|req_ip=10.2.64.140|client_id=111|stream_id=livestream|fps=24|kbps=208|kbps_30s=0|kbps_5m=0
+[2016-10-11 13:09:56.105303] client playing|req_ip=10.2.64.140|client_id=111|stream_id=livestream|fps=24|kbps=212|kbps_30s=0|kbps_5m=0
+[2016-10-11 13:10:01.225117] client disconnected|req_ip=10.2.64.140|client_id=111|stream_id=livestream|sourceid=/live/livestream|ret=1007

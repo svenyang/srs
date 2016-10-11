@@ -37,7 +37,9 @@ void protobuf_ShutdownFile_IMSMessage_2eproto();
 class AddStreamMsg;
 class DelStreamMsg;
 class IMSMessage;
+class NewStreamMsg;
 class NumClientsReplyMsg;
+class StopStreamMsg;
 class StreamClientsCount;
 class StreamEndMsg;
 
@@ -573,6 +575,202 @@ class NumClientsReplyMsg : public ::google::protobuf::Message /* @@protoc_insert
 };
 // -------------------------------------------------------------------
 
+class NewStreamMsg : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:NewStreamMsg) */ {
+ public:
+  NewStreamMsg();
+  virtual ~NewStreamMsg();
+
+  NewStreamMsg(const NewStreamMsg& from);
+
+  inline NewStreamMsg& operator=(const NewStreamMsg& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
+    return _internal_metadata_.unknown_fields();
+  }
+
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
+    return _internal_metadata_.mutable_unknown_fields();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const NewStreamMsg& default_instance();
+
+  void Swap(NewStreamMsg* other);
+
+  // implements Message ----------------------------------------------
+
+  inline NewStreamMsg* New() const { return New(NULL); }
+
+  NewStreamMsg* New(::google::protobuf::Arena* arena) const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const NewStreamMsg& from);
+  void MergeFrom(const NewStreamMsg& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const {
+    return InternalSerializeWithCachedSizesToArray(false, output);
+  }
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  void InternalSwap(NewStreamMsg* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return _internal_metadata_.arena();
+  }
+  inline void* MaybeArenaPtr() const {
+    return _internal_metadata_.raw_arena_ptr();
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // optional string streamId = 1;
+  bool has_streamid() const;
+  void clear_streamid();
+  static const int kStreamIdFieldNumber = 1;
+  const ::std::string& streamid() const;
+  void set_streamid(const ::std::string& value);
+  void set_streamid(const char* value);
+  void set_streamid(const char* value, size_t size);
+  ::std::string* mutable_streamid();
+  ::std::string* release_streamid();
+  void set_allocated_streamid(::std::string* streamid);
+
+  // @@protoc_insertion_point(class_scope:NewStreamMsg)
+ private:
+  inline void set_has_streamid();
+  inline void clear_has_streamid();
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::uint32 _has_bits_[1];
+  mutable int _cached_size_;
+  ::google::protobuf::internal::ArenaStringPtr streamid_;
+  friend void  protobuf_AddDesc_IMSMessage_2eproto();
+  friend void protobuf_AssignDesc_IMSMessage_2eproto();
+  friend void protobuf_ShutdownFile_IMSMessage_2eproto();
+
+  void InitAsDefaultInstance();
+  static NewStreamMsg* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class StopStreamMsg : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:StopStreamMsg) */ {
+ public:
+  StopStreamMsg();
+  virtual ~StopStreamMsg();
+
+  StopStreamMsg(const StopStreamMsg& from);
+
+  inline StopStreamMsg& operator=(const StopStreamMsg& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
+    return _internal_metadata_.unknown_fields();
+  }
+
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
+    return _internal_metadata_.mutable_unknown_fields();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const StopStreamMsg& default_instance();
+
+  void Swap(StopStreamMsg* other);
+
+  // implements Message ----------------------------------------------
+
+  inline StopStreamMsg* New() const { return New(NULL); }
+
+  StopStreamMsg* New(::google::protobuf::Arena* arena) const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const StopStreamMsg& from);
+  void MergeFrom(const StopStreamMsg& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const {
+    return InternalSerializeWithCachedSizesToArray(false, output);
+  }
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  void InternalSwap(StopStreamMsg* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return _internal_metadata_.arena();
+  }
+  inline void* MaybeArenaPtr() const {
+    return _internal_metadata_.raw_arena_ptr();
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // optional string streamId = 1;
+  bool has_streamid() const;
+  void clear_streamid();
+  static const int kStreamIdFieldNumber = 1;
+  const ::std::string& streamid() const;
+  void set_streamid(const ::std::string& value);
+  void set_streamid(const char* value);
+  void set_streamid(const char* value, size_t size);
+  ::std::string* mutable_streamid();
+  ::std::string* release_streamid();
+  void set_allocated_streamid(::std::string* streamid);
+
+  // @@protoc_insertion_point(class_scope:StopStreamMsg)
+ private:
+  inline void set_has_streamid();
+  inline void clear_has_streamid();
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::uint32 _has_bits_[1];
+  mutable int _cached_size_;
+  ::google::protobuf::internal::ArenaStringPtr streamid_;
+  friend void  protobuf_AddDesc_IMSMessage_2eproto();
+  friend void protobuf_AssignDesc_IMSMessage_2eproto();
+  friend void protobuf_ShutdownFile_IMSMessage_2eproto();
+
+  void InitAsDefaultInstance();
+  static StopStreamMsg* default_instance_;
+};
+// -------------------------------------------------------------------
+
 class IMSMessage : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:IMSMessage) */ {
  public:
   IMSMessage();
@@ -696,6 +894,24 @@ class IMSMessage : public ::google::protobuf::Message /* @@protoc_insertion_poin
   ::NumClientsReplyMsg* release_numclientsreplies();
   void set_allocated_numclientsreplies(::NumClientsReplyMsg* numclientsreplies);
 
+  // optional .NewStreamMsg newStream = 7;
+  bool has_newstream() const;
+  void clear_newstream();
+  static const int kNewStreamFieldNumber = 7;
+  const ::NewStreamMsg& newstream() const;
+  ::NewStreamMsg* mutable_newstream();
+  ::NewStreamMsg* release_newstream();
+  void set_allocated_newstream(::NewStreamMsg* newstream);
+
+  // optional .StopStreamMsg stopStream = 8;
+  bool has_stopstream() const;
+  void clear_stopstream();
+  static const int kStopStreamFieldNumber = 8;
+  const ::StopStreamMsg& stopstream() const;
+  ::StopStreamMsg* mutable_stopstream();
+  ::StopStreamMsg* release_stopstream();
+  void set_allocated_stopstream(::StopStreamMsg* stopstream);
+
   // @@protoc_insertion_point(class_scope:IMSMessage)
  private:
   inline void set_has_seqno();
@@ -710,6 +926,10 @@ class IMSMessage : public ::google::protobuf::Message /* @@protoc_insertion_poin
   inline void clear_has_streamend();
   inline void set_has_numclientsreplies();
   inline void clear_has_numclientsreplies();
+  inline void set_has_newstream();
+  inline void clear_has_newstream();
+  inline void set_has_stopstream();
+  inline void clear_has_stopstream();
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::uint32 _has_bits_[1];
@@ -720,6 +940,8 @@ class IMSMessage : public ::google::protobuf::Message /* @@protoc_insertion_poin
   ::DelStreamMsg* delstream_;
   ::StreamEndMsg* streamend_;
   ::NumClientsReplyMsg* numclientsreplies_;
+  ::NewStreamMsg* newstream_;
+  ::StopStreamMsg* stopstream_;
   friend void  protobuf_AddDesc_IMSMessage_2eproto();
   friend void protobuf_AssignDesc_IMSMessage_2eproto();
   friend void protobuf_ShutdownFile_IMSMessage_2eproto();
@@ -1132,6 +1354,122 @@ NumClientsReplyMsg::streamclients() const {
 
 // -------------------------------------------------------------------
 
+// NewStreamMsg
+
+// optional string streamId = 1;
+inline bool NewStreamMsg::has_streamid() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void NewStreamMsg::set_has_streamid() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void NewStreamMsg::clear_has_streamid() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void NewStreamMsg::clear_streamid() {
+  streamid_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  clear_has_streamid();
+}
+inline const ::std::string& NewStreamMsg::streamid() const {
+  // @@protoc_insertion_point(field_get:NewStreamMsg.streamId)
+  return streamid_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void NewStreamMsg::set_streamid(const ::std::string& value) {
+  set_has_streamid();
+  streamid_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:NewStreamMsg.streamId)
+}
+inline void NewStreamMsg::set_streamid(const char* value) {
+  set_has_streamid();
+  streamid_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:NewStreamMsg.streamId)
+}
+inline void NewStreamMsg::set_streamid(const char* value, size_t size) {
+  set_has_streamid();
+  streamid_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:NewStreamMsg.streamId)
+}
+inline ::std::string* NewStreamMsg::mutable_streamid() {
+  set_has_streamid();
+  // @@protoc_insertion_point(field_mutable:NewStreamMsg.streamId)
+  return streamid_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* NewStreamMsg::release_streamid() {
+  // @@protoc_insertion_point(field_release:NewStreamMsg.streamId)
+  clear_has_streamid();
+  return streamid_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void NewStreamMsg::set_allocated_streamid(::std::string* streamid) {
+  if (streamid != NULL) {
+    set_has_streamid();
+  } else {
+    clear_has_streamid();
+  }
+  streamid_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), streamid);
+  // @@protoc_insertion_point(field_set_allocated:NewStreamMsg.streamId)
+}
+
+// -------------------------------------------------------------------
+
+// StopStreamMsg
+
+// optional string streamId = 1;
+inline bool StopStreamMsg::has_streamid() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void StopStreamMsg::set_has_streamid() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void StopStreamMsg::clear_has_streamid() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void StopStreamMsg::clear_streamid() {
+  streamid_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  clear_has_streamid();
+}
+inline const ::std::string& StopStreamMsg::streamid() const {
+  // @@protoc_insertion_point(field_get:StopStreamMsg.streamId)
+  return streamid_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void StopStreamMsg::set_streamid(const ::std::string& value) {
+  set_has_streamid();
+  streamid_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:StopStreamMsg.streamId)
+}
+inline void StopStreamMsg::set_streamid(const char* value) {
+  set_has_streamid();
+  streamid_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:StopStreamMsg.streamId)
+}
+inline void StopStreamMsg::set_streamid(const char* value, size_t size) {
+  set_has_streamid();
+  streamid_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:StopStreamMsg.streamId)
+}
+inline ::std::string* StopStreamMsg::mutable_streamid() {
+  set_has_streamid();
+  // @@protoc_insertion_point(field_mutable:StopStreamMsg.streamId)
+  return streamid_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* StopStreamMsg::release_streamid() {
+  // @@protoc_insertion_point(field_release:StopStreamMsg.streamId)
+  clear_has_streamid();
+  return streamid_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void StopStreamMsg::set_allocated_streamid(::std::string* streamid) {
+  if (streamid != NULL) {
+    set_has_streamid();
+  } else {
+    clear_has_streamid();
+  }
+  streamid_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), streamid);
+  // @@protoc_insertion_point(field_set_allocated:StopStreamMsg.streamId)
+}
+
+// -------------------------------------------------------------------
+
 // IMSMessage
 
 // optional int64 seqNo = 1;
@@ -1388,7 +1726,99 @@ inline void IMSMessage::set_allocated_numclientsreplies(::NumClientsReplyMsg* nu
   // @@protoc_insertion_point(field_set_allocated:IMSMessage.NumClientsReplies)
 }
 
+// optional .NewStreamMsg newStream = 7;
+inline bool IMSMessage::has_newstream() const {
+  return (_has_bits_[0] & 0x00000040u) != 0;
+}
+inline void IMSMessage::set_has_newstream() {
+  _has_bits_[0] |= 0x00000040u;
+}
+inline void IMSMessage::clear_has_newstream() {
+  _has_bits_[0] &= ~0x00000040u;
+}
+inline void IMSMessage::clear_newstream() {
+  if (newstream_ != NULL) newstream_->::NewStreamMsg::Clear();
+  clear_has_newstream();
+}
+inline const ::NewStreamMsg& IMSMessage::newstream() const {
+  // @@protoc_insertion_point(field_get:IMSMessage.newStream)
+  return newstream_ != NULL ? *newstream_ : *default_instance_->newstream_;
+}
+inline ::NewStreamMsg* IMSMessage::mutable_newstream() {
+  set_has_newstream();
+  if (newstream_ == NULL) {
+    newstream_ = new ::NewStreamMsg;
+  }
+  // @@protoc_insertion_point(field_mutable:IMSMessage.newStream)
+  return newstream_;
+}
+inline ::NewStreamMsg* IMSMessage::release_newstream() {
+  // @@protoc_insertion_point(field_release:IMSMessage.newStream)
+  clear_has_newstream();
+  ::NewStreamMsg* temp = newstream_;
+  newstream_ = NULL;
+  return temp;
+}
+inline void IMSMessage::set_allocated_newstream(::NewStreamMsg* newstream) {
+  delete newstream_;
+  newstream_ = newstream;
+  if (newstream) {
+    set_has_newstream();
+  } else {
+    clear_has_newstream();
+  }
+  // @@protoc_insertion_point(field_set_allocated:IMSMessage.newStream)
+}
+
+// optional .StopStreamMsg stopStream = 8;
+inline bool IMSMessage::has_stopstream() const {
+  return (_has_bits_[0] & 0x00000080u) != 0;
+}
+inline void IMSMessage::set_has_stopstream() {
+  _has_bits_[0] |= 0x00000080u;
+}
+inline void IMSMessage::clear_has_stopstream() {
+  _has_bits_[0] &= ~0x00000080u;
+}
+inline void IMSMessage::clear_stopstream() {
+  if (stopstream_ != NULL) stopstream_->::StopStreamMsg::Clear();
+  clear_has_stopstream();
+}
+inline const ::StopStreamMsg& IMSMessage::stopstream() const {
+  // @@protoc_insertion_point(field_get:IMSMessage.stopStream)
+  return stopstream_ != NULL ? *stopstream_ : *default_instance_->stopstream_;
+}
+inline ::StopStreamMsg* IMSMessage::mutable_stopstream() {
+  set_has_stopstream();
+  if (stopstream_ == NULL) {
+    stopstream_ = new ::StopStreamMsg;
+  }
+  // @@protoc_insertion_point(field_mutable:IMSMessage.stopStream)
+  return stopstream_;
+}
+inline ::StopStreamMsg* IMSMessage::release_stopstream() {
+  // @@protoc_insertion_point(field_release:IMSMessage.stopStream)
+  clear_has_stopstream();
+  ::StopStreamMsg* temp = stopstream_;
+  stopstream_ = NULL;
+  return temp;
+}
+inline void IMSMessage::set_allocated_stopstream(::StopStreamMsg* stopstream) {
+  delete stopstream_;
+  stopstream_ = stopstream;
+  if (stopstream) {
+    set_has_stopstream();
+  } else {
+    clear_has_stopstream();
+  }
+  // @@protoc_insertion_point(field_set_allocated:IMSMessage.stopStream)
+}
+
 #endif  // !PROTOBUF_INLINE_NOT_IN_HEADERS
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------
